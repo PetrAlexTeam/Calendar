@@ -6,7 +6,7 @@ class Calendar(models.Model):
     name = models.CharField(max_length=63, name="name", help_text="Название")
     description = models.TextField(max_length=255, name="description", help_text="Описание")
     creator = models.CharField(max_length=63, name='author', help_text='Автор')
-
+    path = models.CharField(max_length=63, name='path', help_text='Путь по которому получают этот календарь')
 
     def __str__(self):
         return f"{self.name} {self.description[:25]}"

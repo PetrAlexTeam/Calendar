@@ -17,6 +17,7 @@ def new_calendar(request):
         form = NewCalendarForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("")  # TODO redirect after creating new calendar
+            return HttpResponse("Success")
+            #return redirect("/new")  # TODO redirect after creating new calendar
         else:
             pass  # TODO If form is not correct

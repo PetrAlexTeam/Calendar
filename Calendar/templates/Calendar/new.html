@@ -1,0 +1,13 @@
+{% extends "Calendar/page.html" %}
+{%  block page %}
+    <h2>Create new calendar</h2>
+    <br>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.name }} <br>
+        {{ form.author }} <br>
+        {{ form.description }} <br>
+        <button type="submit" class="btn btn-success">Create</button>
+    </form>
+{% endblock %}

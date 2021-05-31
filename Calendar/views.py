@@ -7,6 +7,7 @@ def home(request):
     return render(request, "Calendar/base.html")
 
 
+
 def new_calendar(request):
     """ Слздание новго каленадря /new"""
     if request.method == "GET":
@@ -18,12 +19,13 @@ def new_calendar(request):
         form = NewCalendarForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('home')
+            path = form.instance.path
+            return redirect(f"/{path}")
         else:
             error = 'task was unsuccesfully'
             context = {"error": error}
+            # /<calendar_path>
             return render(request, 'Calendar/new.html', context)
-
 
 
 def get_calendar(request, path):
@@ -31,3 +33,7 @@ def get_calendar(request, path):
     calendar = Calendar.objects.filter(path=path).first()
     tasks = Task.objects.filter(calendar=calendar).all()
     return render(request, "Calendar/calendar.html", {"tasks": tasks})
+
+
+def support(request):
+    render(request, 'Calendar/support.html')

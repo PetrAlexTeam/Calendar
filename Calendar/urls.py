@@ -6,4 +6,5 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('new', views.new_calendar, name='new_calendar'),
     path('<str:path>', views.get_calendar),
+    path('support', views.support, name='support')
 ]

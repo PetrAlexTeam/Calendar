@@ -18,12 +18,11 @@ def new_calendar(request):
         form = NewCalendarForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('home')  # TODO redirect after creating new calendar
+            return redirect('home')
         else:
             error = 'task was unsuccesfully'
             context = {"error": error}
             return render(request, 'Calendar/new.html', context)
-            # TODO If form is not correct
 
 
 

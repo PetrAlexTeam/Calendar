@@ -4,7 +4,7 @@ from .forms import NewCalendarForm
 from .models import Task, Calendar
 
 def home(request):
-    return render(request, "Calendar/base.html")
+    return render(request, "Calendar/page.html")
 
 
 
@@ -36,4 +36,5 @@ def get_calendar(request, path):
 
 
 def support(request):
-    render(request, 'Calendar/support.html')
+    context = {'title': 'Our Contacts'}
+    render(request, 'Calendar/support.html', context)

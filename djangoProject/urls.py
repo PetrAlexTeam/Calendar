@@ -20,7 +20,7 @@ urlpatterns = [
     path('admin', admin.site.urls),
     path('admin/', admin.site.urls),
     path('', include('Calendar.urls')),
-    path('new', include('Calendar.urls')),
+    #path('new', include('Calendar.urls')),
     path('<str:path>', include('Calendar.urls')),
     # path('<str:path>/add', include('Calendar.urls')),
     # path('new', include('Calendar.urls'))

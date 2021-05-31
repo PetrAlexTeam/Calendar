@@ -4,12 +4,8 @@ from random import randint
 
 
 class Calendar(models.Model):
-
-    def __init__(self, *args, **kwargs):
-        super(Calendar, self).__init__(*args, **kwargs)
-        self.path = self.generate_path()
-
-    def generate_path(self) -> str:
+    @staticmethod
+    def generate_path() -> str:
         return str(randint(10 ** 6, 9 * 10 ** 6))
 
     name = models.CharField(max_length=63, name="name", help_text="Название")

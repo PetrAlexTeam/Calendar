@@ -1,7 +1,11 @@
 {% extends "Calendar/page.html"%}
 
 {% block page %}
-    {% for task in tasks %}
-        {{ task.name }} {{ task.description }} <it> {{ task.author }}</it> <br>
-    {%  endfor %}
+    {% if tasks%}
+        {% for task in tasks %}
+            {{ task.name }} {{ task.description }} <i> {{ task.author }}</i> <br>
+        {%  endfor %}
+    {% else %}
+        В этом календаре нет задач
+    {% endif %}
 {% endblock %}

@@ -1,11 +1,13 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.views.debug import technical_404_response
+
 from .forms import NewCalendarForm
 from .models import Task, Calendar
 
+
 def home(request):
     return render(request, "Calendar/page.html")
-
 
 
 def new_calendar(request):
@@ -29,15 +31,19 @@ def new_calendar(request):
 
 def get_calendar(request, path):
     """Получение инфо об календаре"""
-    calendar = Calendar.objects.filter(path=path).first()
-    # TODO Проверка если календаря нет
+    try:
+        calendar = Calendar.objects.get(path=path)
+    except Calendar.DoesNotExist:
+        return render(request, "Calendar/404.html", {"text": "такого календаря нет", "title": "Calendar is not found"})
     tasks = Task.objects.filter(calendar=calendar).all()
-    # TODO проверка если задач нет
     print(calendar, tasks)
     return render(request, "Calendar/calendar.html", {"tasks": tasks})
+
+
+def add_task(request, path):
+    pass
 
 
 def support(request):
     context = {'title': 'Our Contacts'}
     render(request, 'Calendar/support.html', context)
-

@@ -1,0 +1,5 @@
+{% extends "Calendar/page.html"%}
+
+{% for task in tasks %}
+    {{ task.name }} {{ task.description }} <it> {{ task.author }}</it> <br>
+{%  endfor %}

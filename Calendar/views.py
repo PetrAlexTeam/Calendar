@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .forms import NewCalendarForm
-
+from .models import Task, Calendar
 
 def home(request):
     return render(request, "Calendar/base.html")
@@ -24,3 +24,11 @@ def new_calendar(request):
             context = {"error": error}
             return render(request, 'Calendar/new.html', context)
             # TODO If form is not correct
+
+
+
+def get_calendar(request, path):
+    """Получение инфо об календаре"""
+    calendar = Calendar.objects.filter(path=path).first()
+    tasks = Task.objects.filter(calendar=calendar).all()
+    return render(request, "Calendar/calendar.html", {"tasks": tasks})

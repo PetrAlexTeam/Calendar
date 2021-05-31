@@ -14,10 +14,13 @@ def new_calendar(request):
         context = {"form": form}
         return render(request, "Calendar/new.html", context)
     if request.method == "POST":
+        error = ''
         form = NewCalendarForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponse("Success")
-            #return redirect("/new")  # TODO redirect after creating new calendar
+            return redirect('home')  # TODO redirect after creating new calendar
         else:
-            pass  # TODO If form is not correct
+            error = 'task was unsuccesfully'
+            context = {"error": error}
+            return render(request, 'Calendar/new.html', context)
+            # TODO If form is not correct

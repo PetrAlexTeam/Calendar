@@ -4,5 +4,6 @@ from . import views
 
 urlpatterns = [
     path('', views.home),
-    path('new', views.new_calendar)
+    path('new', views.new_calendar),
+    path('<str:path>', views.get_calendar),
 ]

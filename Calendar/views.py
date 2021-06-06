@@ -18,7 +18,6 @@ def new_calendar(request):
         return render(request, "Calendar/new.html", context)
     if request.method == "POST":
         form = NewCalendarForm(request.POST)
-        form.instance.path = Calendar.generate_path()
         if form.is_valid():
             form.save()
             path = form.instance.path

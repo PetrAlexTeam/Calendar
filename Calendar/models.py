@@ -8,6 +8,11 @@ class Calendar(models.Model):
     def generate_path() -> str:
         return str(randint(10 ** 6, 9 * 10 ** 6))
 
+    def save(self, *args, **kwargs):
+        if not self.path:
+            self.path = self.generate_path()
+        return super().save(*args, **kwargs)
+
     name = models.CharField(max_length=63, name="name", help_text="Название")
     description = models.TextField(max_length=255, name="description", help_text="Описание")
     creator = models.CharField(max_length=63, name='author', help_text='Автор')

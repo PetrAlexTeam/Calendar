@@ -1,7 +1,11 @@
 {% extends "Calendar/page.html" %}
-{% block title %}
-{{ title }}
-{% endblock %}
-{%  block content %}
 
+{%  block page %}
+     <form method="POST">
+        {% csrf_token %}
+        {{ form.name }} <br>
+        {{ form.author }} <br>
+        {{ form.description }} <br>
+        <button type="submit" class="btn btn-success">Create</button>
+    </form>
 {% endblock %}

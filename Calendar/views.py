@@ -7,8 +7,8 @@ from .models import Task, Calendar
 
 
 def home(request):
-    return render(request, "Calendar/page.html")
-
+    context = {"title": "Homepage"}
+    return render(request, "Calendar/index.html", context)
 
 def new_calendar(request):
     """ Слздание новго каленадря /new"""
@@ -66,5 +66,5 @@ def get_calendar(request, path):
 
 
 def support(request):
-    context = {'title': 'Our Contacts'}
-    render(request, 'Calendar/support.html', context)
+    context = {"title": "OurContacts"}
+    render(request, 'Calendar/support.html', context=context)

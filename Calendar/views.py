@@ -37,7 +37,6 @@ def add_task(request, path):
                           {"text": "calendar not found", "title": "Calendar is not found"})
         form = AddTaskForm(request.POST)
         if form.is_valid():
-            print(type(form.instance))
             form.instance.calendar = calendar
             form.save()
             return redirect(f"/{calendar.path}")

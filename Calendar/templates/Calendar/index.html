@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html style="font-size: 16px;">
+  <head>
+      {% load static %}
+      <link rel="stylesheet" href="{% static 'css/stylesheet.css' %}" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <title>Главная</title>
+
+      <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+      <script type="text/javascript" src="{% static 'js/scripts.js' %}"></script>
+
+  </head>
+
+  <body>
+        <a href="http://youtube.com" class="" data-image-width="30" data-image-height="340">
+          <img src="{% static 'img/logo.png' %}" class="logo" data-image-width="30">
+        </a>
+        <nav clasыs="">
+          <div class="menu_navigator">
+            <ul class="table">
+                <li class="table-item"><a class="button" href="Главная.html" style="padding: 10px 20px;">Главная</a>
+                </li><li class="table-item"><a class="button" href="support.html" style="padding: 10px 20px;">О нас</a>
+            </ul>
+
+          </div>
+        </nav>
+
+
+      <div class="">
+        <img class="my_background-image" src="{% static 'img/calendar-background.jpg' %}" id ="my_back" data-image-width="600" data-image-height="398">
+      </div>
+
+    <footer class="footer" id="my_footer">
+        this is footer baby
+    </footer>
+  </body>
+</html>

@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.debug import technical_404_response
 
-from .forms import NewCalendarForm
+from .forms import NewCalendarForm, AddTaskForm
 from .models import Task, Calendar
 
 
@@ -18,7 +18,6 @@ def new_calendar(request):
         return render(request, "Calendar/new.html", context)
     if request.method == "POST":
         form = NewCalendarForm(request.POST)
-        form.instance.path = Calendar.generate_path()
         if form.is_valid():
             form.save()
             path = form.instance.path
@@ -29,19 +28,41 @@ def new_calendar(request):
             return render(request, 'Calendar/new.html', context)
 
 
+def add_task(request, path):
+    if request.method == 'POST':
+        try:
+            calendar = Calendar.objects.get(path=path)
+        except Calendar.DoesNotExist:
+            return render(request, "Calendar/404.html",
+                          {"text": "calendar not found", "title": "Calendar is not found"})
+        form = AddTaskForm(request.POST)
+        if form.is_valid():
+            form.instance.calendar = calendar
+            form.save()
+            return redirect(f"/{calendar.path}")
+        else:
+            error = 'Problems with this task. Try again.'
+            context = {"error": error}
+            return render(request, 'Calendar/add.html', context)
+
+    elif request.method == 'GET':
+        try:
+            calendar = Calendar.objects.get(path=path)
+        except Calendar.DoesNotExist:
+            return render(request, "Calendar/404.html",
+                          {"text": "calendar not found", "title": "Calendar is not found"})
+        form = AddTaskForm()
+        return render(request, "Calendar/add.html", {"form": form, "calendar": calendar})
+
+
 def get_calendar(request, path):
     """Получение инфо об календаре"""
     try:
         calendar = Calendar.objects.get(path=path)
     except Calendar.DoesNotExist:
-        return render(request, "Calendar/404.html", {"text": "такого календаря нет", "title": "Calendar is not found"})
+        return render(request, "Calendar/404.html", {"text": "calendar not found", "title": "Calendar is not found"})
     tasks = Task.objects.filter(calendar=calendar).all()
-    print(calendar, tasks)
     return render(request, "Calendar/calendar.html", {"tasks": tasks})
-
-
-def add_task(request, path):
-    pass
 
 
 def support(request):

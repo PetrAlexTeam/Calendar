@@ -13,20 +13,8 @@ class NewCalendarForm(ModelForm):
             "author": TextInput(attrs={"class": "form-control", "placeholder": "Your name"})}
 
 
-class AddTaskForm(ModelForm):
-    class Meta:
-        model = Task
-        fields = ["name", "description", "author", "timestamp"]
-        widgets = {
-            "name": TextInput(attrs={"class": "form-control", "placeholder": "Title"}),
-            "description": Textarea(attrs={"class": "form-control", "placeholder": "Description"}),
-            "author": TextInput(attrs={"class": "form-control", "placeholder": "Your name"}),
-            "timestamp": TextInput(attrs={"class": "form-control", "placeholder": "datetime", "type": "date"}),
-            "date": TextInput(attrs={"class": "form-control", "placeholder": "datetime", "type": "date"})
-        }
-
-class AddTaskForm2(forms.Form):
+class AddTaskForm(forms.Form):
     name = forms.CharField(label='Task title', max_length=63)
     description = forms.CharField(label='Short Description', max_length=255)
-    author = forms.CharField(label='Creator', max_length=63, default='Anonymous')
-    date = forms.DateTimeField()
+    author = forms.CharField(label='Creator', max_length=63)
+    date = forms.CharField(widget=forms.TextInput(attrs={"type": "date"}))

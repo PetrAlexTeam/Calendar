@@ -27,8 +27,9 @@ class Calendar(models.Model):
 class Task(models.Model):
 
     def save(self, *args, **kwargs):
-        if not self.day:
-            dt = datetime.fromtimestamp(self.timestamp)
+        print(self.day)
+        if True:
+            dt = datetime.strptime(self.timestamp, "%Y-%m-%d")
             self.year = dt.year
             self.month = dt.month
             self.day = dt.day

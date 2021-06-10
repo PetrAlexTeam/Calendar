@@ -1,4 +1,44 @@
-
+@import url(https://fonts.googleapis.com/css?family=Lora);
 #my_back {
-    opacity: 0.4;
+    opacity: 0.7;
+    margin: 100px;
 }
+body {margin:0;}
+.top_navigator {
+  margin: 0;
+  padding: 0;
+  /*background-color: rgba(255,255,255,.5);
+  box-shadow: 3px 0 7px rgba(0,0,0,.3);*/
+
+}
+.top_navigator li{
+    float: right;
+}
+
+ul {
+  background: #C0D4C6;
+  list-style: none;
+  margin: 0px;
+
+}
+nav {
+  display: block;
+  width: 100%;
+  margin: 0px;
+}
+a {
+  text-decoration: none;
+  font-family: 'Lora', serif;
+  transition: .5s linear;
+
+}
+li a{
+    display: block;
+    padding: 15px;
+
+}
+#logo{
+    margin-left: 2px;
+    float:left;
+}
+

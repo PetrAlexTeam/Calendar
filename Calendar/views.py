@@ -2,13 +2,18 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.debug import technical_404_response
 
-from .forms import NewCalendarForm, AddTaskForm
+from .forms import NewCalendarForm, AddTaskForm2
 from .models import Task, Calendar
 
 
 def home(request):
     context = {"title": "Homepage"}
     return render(request, "Calendar/index.html", context)
+
+
+def my_calendar(request):
+    return render(request, "Calendar/my_calendar.html")
+
 
 def new_calendar(request):
     """ Слздание новго каленадря /new"""
@@ -30,12 +35,14 @@ def new_calendar(request):
 
 def add_task(request, path):
     if request.method == 'POST':
+        print("Get post")
         try:
             calendar = Calendar.objects.get(path=path)
         except Calendar.DoesNotExist:
+            print(404)
             return render(request, "Calendar/404.html",
                           {"text": "calendar not found", "title": "Calendar is not found"})
-        form = AddTaskForm(request.POST)
+        form = AddTaskForm2(request.POST)
         if form.is_valid():
             form.instance.calendar = calendar
             form.save()
@@ -51,7 +58,7 @@ def add_task(request, path):
         except Calendar.DoesNotExist:
             return render(request, "Calendar/404.html",
                           {"text": "calendar not found", "title": "Calendar is not found"})
-        form = AddTaskForm()
+        form = AddTaskForm2()
         return render(request, "Calendar/add.html", {"form": form, "calendar": calendar})
 
 

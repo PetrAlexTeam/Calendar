@@ -1,7 +1,8 @@
 from .models import Calendar, Task
 from django.forms import ModelForm, TextInput, Textarea, DateTimeField, DateField
 from django import forms
-
+import datetime
+from time import mktime
 
 class NewCalendarForm(ModelForm):
     class Meta:
@@ -14,7 +15,24 @@ class NewCalendarForm(ModelForm):
 
 
 class AddTaskForm(forms.Form):
+
     name = forms.CharField(label='Task title', max_length=63)
     description = forms.CharField(label='Short Description', max_length=255)
     author = forms.CharField(label='Creator', max_length=63)
     date = forms.CharField(widget=forms.TextInput(attrs={"type": "date"}))
+
+    def save(self, calendar):
+        print(self.cleaned_data['date'])
+        task = Task()
+        user_data = datetime.datetime.strptime(self.cleaned_data['date'], "%Y-%m-%d")
+        task.date = user_data
+        task.name = self.cleaned_data['name']
+        task.description = self.cleaned_data['description']
+        task.creator = self.cleaned_data['author']
+        task.timestamp = user_data.replace(tzinfo=datetime.timezone.utc).timestamp()
+        task.year = user_data.year
+        task.month = user_data.month
+        task.day = user_data.day
+        task.calendar = calendar
+        task.save()
+        print(task)

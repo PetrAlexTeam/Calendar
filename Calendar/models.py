@@ -29,7 +29,8 @@ class Task(models.Model):
     def save(self, *args, **kwargs):
         print(self.day)
         if True:
-            dt = datetime.strptime(self.timestamp, "%Y-%m-%d")
+            print(type(self.timestamp))
+            dt = datetime.fromtimestamp(self.timestamp)
             self.year = dt.year
             self.month = dt.month
             self.day = dt.day
@@ -42,6 +43,7 @@ class Task(models.Model):
     timestamp = models.IntegerField()
     # Для более быстрой работы базы данных и удобного вывода помимо таймстампа можно сохранять и месяц день итп.
     # Количество памяти занимаемой БД не так критично как время загрзи страницы
+
     year = models.IntegerField()
     month = models.IntegerField()
     day = models.IntegerField()
@@ -53,4 +55,4 @@ class Task(models.Model):
 
 
     def __str__(self):
-        return f"{self.name} {self.description} "
+        return f"{self.name} {self.description} {self.timestamp}"

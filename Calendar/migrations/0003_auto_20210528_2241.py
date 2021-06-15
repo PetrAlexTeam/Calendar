@@ -12,13 +12,13 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RemoveField(
-            model_name='calendar',
-            name='calendar',
+            model_name='calendar.css',
+            name='calendar.css',
         ),
         migrations.AddField(
             model_name='task',
-            name='calendar',
-            field=models.ForeignKey(default=0, on_delete=django.db.models.deletion.CASCADE, to='Calendar.calendar'),
+            name='calendar.css',
+            field=models.ForeignKey(default=0, on_delete=django.db.models.deletion.CASCADE, to='Calendar.calendar.css'),
             preserve_default=False,
         ),
     ]

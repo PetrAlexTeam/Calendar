@@ -1,6 +1,6 @@
-{% extends "Calendar/page.html" %}
+{% extends "Calendar/base.html" %}
 
-{%  block page %}
+{%  block body %}
      <form method="POST">
         {% csrf_token %}
         {{ form.name }} <br>

@@ -67,7 +67,7 @@ def get_calendar(request, path):
     try:
         calendar = Calendar.objects.get(path=path)
     except Calendar.DoesNotExist:
-        return render(request, "Calendar/404.html", {"text": "calendar not found", "title": "Calendar is not found"})
+        return render(request, "Calendar/404.html", {"text": "calendar.css not found", "title": "Calendar is not found"})
     tasks = Task.objects.filter(calendar=calendar).all()
     return render(request, "Calendar/calendar.html", {"tasks": tasks})
 

@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RemoveField(
-            model_name='calendar',
+            model_name='calendar.css',
             name='path',
         ),
     ]

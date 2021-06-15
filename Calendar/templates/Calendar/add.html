@@ -1,9 +1,9 @@
-{% extends "Calendar/page.html" %}
+{% extends "Calendar/base.html" %}
 
 {#{% load widget_tweaks %}#}
 {#{{form.datetime_string|attr:"type:date"}}#}
 
-{%  block page %}
+{%  block body %}
     <h2>Add task to calendar {{ calendar.name }}</h2>
     <br>
     <form method="POST">

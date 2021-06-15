@@ -1,11 +1,24 @@
-{% extends "Calendar/page.html"%}
+{% extends "Calendar/base.html"%}
 
-{% block page %}
-    {% if tasks%}
+{% block head %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/calendar.css' %}" type="text/css">
+{% endblock %}
+
+{% block body %}
+    <table>
+        <tr>
+            <th>Task Name</th>
+            <th>Description</th>
+            <th>Author</th>
+        </tr>
+        {% if tasks%}
         {% for task in tasks %}
-            {{ task.name }} {{ task.description }} <i> {{ task.author }}</i> <br>
+            <tr> <td>{{ task.name }}</td> <td>{{ task.description }}</td> <td> {{ task.author }}</td> </tr>
         {%  endfor %}
-    {% else %}
-        В этом календаре нет задач
-    {% endif %}
+        {% else %}
+            В этом календаре нет задач
+        {% endif %}
+    </table>
+
 {% endblock %}

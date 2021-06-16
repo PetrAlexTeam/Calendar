@@ -59,6 +59,6 @@ li a:hover:after{
     border: 1px solid blue; /* Синяя рамка вокруг ссылок */
 }
 #img{
-  border: 3px solid #303A84;
+  border: 1px solid #000000;
   border-radius: 25px;
 }

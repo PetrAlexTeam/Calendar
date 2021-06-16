@@ -22,11 +22,10 @@ ul {
   margin: 0px;
 
 }
-nav {
+.top_navigator {
   display: block;
   width: 100%;
   margin: 0px;
-  overflow: visible;
   background-color: #C7D8EC;
   height: 100px;
 }
@@ -37,7 +36,7 @@ li a{
     text-decoration: none;
     font-family: 'Lora', serif;
     transition: .5s linear;
-    color: #fff;
+    color: #000000;
 }
 li a:after {
   content: "";
@@ -45,7 +44,6 @@ li a:after {
   height: 2px;
   position: absolute;
   left: 0;
-  bottom: 200px;
   background: #868686;
   transition: all 0.5s linear;
 }
@@ -56,6 +54,9 @@ li a:hover:after{
     text-align: center;
     with: 100px;
     margin: 20px;
+}
+#main_link{
+    border: 1px solid blue; /* Синяя рамка вокруг ссылок */
 }
 #img{
   border: 3px solid #303A84;

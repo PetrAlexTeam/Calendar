@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    {% load static %}
+      <link rel="stylesheet" href="{% static 'css/stylesheet.css' %}" type="text/css">
     <meta charset="UTF-8">
     <title>
         {% if title %}
@@ -19,16 +20,23 @@
 
 <body>
  {# Шапка #}
-    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-      <h5 class="my-0 mr-md-auto font-weight-normal">Company name</h5>
-      <nav class="my-2 my-md-0 mr-md-3">
-        <a class="p-2 text-dark" href="{% url 'home' %}">Homepage</a>
-        <a class="p-2 text-dark" href="{% url 'new_calendar' %}">Create calendar</a>
-        <a class="p-2 text-dark" href="{% url 'support' %}">Support</a>
-
-      </nav>
-      <a class="btn btn-outline-primary" href="#">Sign up</a>
-    </div>
+    <nav>
+        <div class="top_navigator">
+            <div  id="logo-box" style="float:left;">
+                <h1 id="logo">
+                      <a href="http://youtube.com" class="" >
+                      <img src="{% static 'img/logo.png' %}" id="img" width="60px">
+                    </a>
+                </h1>
+            </div>
+            <ul class="table">
+                <li class="top-navigator"><a class="button" href="new" style="margin:0px 10px 0px 0px">Create Calendar</a></li>
+<!--                            <li class="top-navigator"><a class="button" href="my_calendar" style="margin:0px 10px 0px 0px">My Calendar</a></li>-->
+               <li class="top-navigator"><a class="button" href="Главная.html" style="margin:0px 10px 0px 0px">Homepage</a></li>
+               <li class="top-navigator"><a class="button" href="support.html" style="margin:0px 10px 0px 0px">Support</a></li>
+            </ul>
+        </div>
+    </nav>
 
 {% block body %}
 

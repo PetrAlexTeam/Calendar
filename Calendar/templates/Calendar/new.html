@@ -1,4 +1,9 @@
 {% extends "Calendar/base.html" %}
+{% block head %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/forms.css' %}" type="text/css">
+{% endblock %}
+
 {%  block body %}
     <h2>Create new calendar</h2>
     <br>

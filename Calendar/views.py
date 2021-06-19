@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.debug import technical_404_response
-
+import calendar
 from .forms import NewCalendarForm, AddTaskForm
 from .models import Task, Calendar
 
@@ -12,7 +12,10 @@ def home(request):
 
 
 def my_calendar(request):
-    return render(request, "Calendar/my_calendar.html")
+    c = calendar.Calendar()
+    context = {"date": c.monthdatescalendar(2021, 3)}
+    print(context["date"])
+    return render(request, "Calendar/my_calendar.html", context)
 
 
 def new_calendar(request):

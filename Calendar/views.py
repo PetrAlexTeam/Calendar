@@ -5,8 +5,6 @@ import calendar
 from .forms import NewCalendarForm, AddTaskForm
 from .models import Task, Calendar
 
-# Тестовый коментарий
-
 
 def home(request):
     context = {"title": "Homepage"}
@@ -14,8 +12,6 @@ def home(request):
 
 
 def my_calendar(request, path, year, month):
-    # Изменение
-    print(path)
     try:
         my_calendar = Calendar.objects.get(path=path)
     except Calendar.DoesNotExist:

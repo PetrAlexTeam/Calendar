@@ -26,8 +26,8 @@ class Calendar(models.Model):
 
 class Task(models.Model):
     @staticmethod
-    def get_day_tasks(date: datetime.date) -> list:
-        return Task.objects.filter(day=date.day, month=date.month, year=date.year).order_by("timestamp")
+    def get_day_tasks(date: datetime.date, calendar: Calendar) -> list:
+        return Task.objects.filter(day=date.day, month=date.month, year=date.year, calendar=calendar).order_by("timestamp")
 
 
     def save(self, *args, **kwargs):

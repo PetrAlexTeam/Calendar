@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AddField(
-            model_name='calendar.css',
+            model_name='calendar',
             name='path',
             field=models.CharField(default=0, help_text='Путь по которому получают этот календарь', max_length=63, unique=True),
             preserve_default=False,

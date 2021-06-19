@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(help_text='Название', max_length=63)),
                 ('description', models.TextField(help_text='Описание', max_length=255)),
                 ('author', models.CharField(help_text='Автор', max_length=63)),
-                ('calendar.css', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='Calendar.task')),
+                ('calendar', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='Calendar.task')),
             ],
         ),
     ]

@@ -14,11 +14,15 @@
         </tr>
         {% if tasks%}
         {% for task in tasks %}
-            <tr> <td>{{ task.name }}</td> <td>{{ task.description }}</td> <td> {{ task.author }}</td> </tr>
+            <tr> <td>{{ task.name }}</td> <td>{{ task.description }}</td> <td> {{ task.author }}</td>
+                <td> {{ task.timestamp }}</td> <td> {{ task.hour }} Hour {{ task.minute }} minute</td> </tr>
         {%  endfor %}
         {% else %}
             В этом календаре нет задач
         {% endif %}
     </table>
+    <button onclick="location.href = '{{ calendar }}/add'">Create Task</button>
+
+
 
 {% endblock %}

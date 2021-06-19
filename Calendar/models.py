@@ -21,7 +21,7 @@ class Calendar(models.Model):
                             unique=True)
 
     def __str__(self):
-        return f"{self.name} {self.description[:25]}"
+        return f"{self.name} {self.description[:25]} "
 
 
 class Task(models.Model):

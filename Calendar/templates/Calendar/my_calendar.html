@@ -11,7 +11,7 @@
     {% for weak in date  %}
         <tr>
             {% for day in weak %}
-                <th> str({{ day }}) </th>
+                <th> {{ day.day }} </th>
             {% endfor %}
         </tr>
 

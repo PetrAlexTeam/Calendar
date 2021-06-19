@@ -13,7 +13,7 @@ def home(request):
 
 def my_calendar(request):
     c = calendar.Calendar()
-    context = {"date": c.monthdatescalendar(2021, 3)}
+    context = {"date": c.monthdatescalendar(2021, 1)}
     print(context["date"])
     return render(request, "Calendar/my_calendar.html", context)
 

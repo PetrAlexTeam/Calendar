@@ -5,6 +5,8 @@ import calendar
 from .forms import NewCalendarForm, AddTaskForm
 from .models import Task, Calendar
 
+# Тестовый коментарий
+
 
 def home(request):
     context = {"title": "Homepage"}

@@ -12,6 +12,8 @@ def home(request):
 
 
 def my_calendar(request, path, year, month):
+    # Изменение
+    print(path)
     try:
         my_calendar = Calendar.objects.get(path=path)
     except Calendar.DoesNotExist:

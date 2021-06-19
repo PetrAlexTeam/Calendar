@@ -11,9 +11,13 @@ def home(request):
     return render(request, "Calendar/index.html", context)
 
 
-def my_calendar(request):
+def my_calendar(request, path, year, month):
+    try:
+        my_calendar = Calendar.objects.get(path=path)
+    except Calendar.DoesNotExist:
+        return render(request, "Calendar/404.html", {"text": "calendar not found", "title": "Calendar is not found"})
     c = calendar.Calendar()
-    context = {"date": c.monthdatescalendar(2021, 1)}
+    context = {"date": c.monthdatescalendar(year, month)}
     print(context["date"])
     return render(request, "Calendar/my_calendar.html", context)
 
@@ -29,7 +33,7 @@ def new_calendar(request):
         if form.is_valid():
             form.save()
             path = form.instance.path
-            return redirect(f"/{path}")
+            return redirect(f"/my_calendar/{path}")
         else:
             error = 'Problems with this calendar. Try again.'
             context = {"error": error}
@@ -40,7 +44,7 @@ def add_task(request, path):
     if request.method == 'POST':
         print("Get post")
         try:
-            calendar = Calendar.objects.get(path=path)
+            my_calendar = Calendar.objects.get(path=path)
         except Calendar.DoesNotExist:
             print(404)
             return render(request, "Calendar/404.html",
@@ -48,8 +52,8 @@ def add_task(request, path):
         form = AddTaskForm(request.POST)
         if form.is_valid():
             print("save is coming")
-            form.save(calendar = calendar)
-            return redirect(f"/{calendar.path}")
+            form.save(calendar = my_calendar)
+            return redirect(f"/{my_calendar.path}")
         else:
             error = 'Problems with this task. Try again.'
             context = {"error": error}
@@ -57,12 +61,12 @@ def add_task(request, path):
 
     elif request.method == 'GET':
         try:
-            calendar = Calendar.objects.get(path=path)
+            my_calendar = Calendar.objects.get(path=path)
         except Calendar.DoesNotExist:
             return render(request, "Calendar/404.html",
                           {"text": "calendar not found", "title": "Calendar is not found"})
         form = AddTaskForm()
-        return render(request, "Calendar/add.html", {"form": form, "calendar": calendar})
+        return render(request, "Calendar/add.html", {"form": form, "calendar": my_calendar})
 
 
 def get_calendar(request, path):
@@ -72,10 +76,6 @@ def get_calendar(request, path):
     except Calendar.DoesNotExist:
         return render(request, "Calendar/404.html", {"text": "calendar not found", "title": "Calendar is not found"})
     tasks = Task.objects.filter(calendar=calendar).order_by("timestamp")
-    # print(type(calendar))
-    print(str(calendar))
-    # links = calendar + "add"
-    # print(links)
     return render(request, "Calendar/calendar.html", {"tasks": tasks, "calendar": calendar})
 
 

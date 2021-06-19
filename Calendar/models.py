@@ -25,6 +25,10 @@ class Calendar(models.Model):
 
 
 class Task(models.Model):
+    @staticmethod
+    def get_day_tasks(date: datetime.date, calendar: Calendar) -> list:
+        return Task.objects.filter(day=date.day, month=date.month, year=date.year, calendar=calendar).order_by("timestamp")
+
 
     def save(self, *args, **kwargs):
         print(self.day)
@@ -51,8 +55,6 @@ class Task(models.Model):
     minute = models.IntegerField()
     calendar = models.ForeignKey(Calendar, on_delete=models.CASCADE)
     creator = models.CharField(max_length=63, name='author', help_text='Автор', default="Anonymous")
-
-
 
     def __str__(self):
         return f"{self.name} {self.description} {self.timestamp}"

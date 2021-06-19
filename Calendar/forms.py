@@ -9,7 +9,7 @@ class NewCalendarForm(ModelForm):
         model = Calendar
         fields = ["name", "description", "author"]
         widgets = {
-            "name": TextInput(attrs={"class": "form-control", "placeholder": "Input calendar.css's name"}),
+            "name": TextInput(attrs={"class": "form-control", "placeholder": "Calendar name"}),
             "description": Textarea(attrs={"class": "form-control", "placeholder": "Description"}),
             "author": TextInput(attrs={"class": "form-control", "placeholder": "Your name"})}
 

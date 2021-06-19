@@ -4,7 +4,7 @@ from django.views.debug import technical_404_response
 import calendar
 from .forms import NewCalendarForm, AddTaskForm
 from .models import Task, Calendar
-
+from datetime import datetime
 
 def home(request):
     context = {"title": "Homepage"}
@@ -33,7 +33,9 @@ def new_calendar(request):
         if form.is_valid():
             form.save()
             path = form.instance.path
-            return redirect(f"/my_calendar/{path}")
+            month = datetime.now().month
+            year = datetime.now().year
+            return redirect(f"/my_calendar/{path}/{year}/{month}")
         else:
             error = 'Problems with this calendar. Try again.'
             context = {"error": error}

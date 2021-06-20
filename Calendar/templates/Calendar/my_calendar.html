@@ -8,10 +8,11 @@
 </head>
 <body>
 <table>
-    {% for weak in date  %}
+    {% for weak in month  %}
         <tr>
-            {% for day in weak %}
-                <th> {{ day.day }} </th>
+            {% for date in weak %}
+                <th> {{ date.day }} </th>
+                <th> {{ date }} </th>
             {% endfor %}
         </tr>
 

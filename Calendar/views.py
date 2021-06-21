@@ -8,7 +8,8 @@ from datetime import datetime
 
 
 def save_last_calendar(response: HttpResponse, path):
-    response.set_cookie('last_calendar', path)
+    one_year = 365 * 24 * 60 * 60
+    response.set_cookie('last_calendar', path, max_age=one_year)
 
 
 def home(request):

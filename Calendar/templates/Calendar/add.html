@@ -8,15 +8,6 @@
     <br>
     <form method="POST">
         {% csrf_token %}
-<!--        Title: <br>-->
-<!--        {{ form.name }} <br>-->
-<!--        Description <br>-->
-<!--        {{ form.description }} <br>-->
-<!--        Your name <br>-->
-<!--        {{ form.author }} <br>-->
-<!--        Task deadline <br>-->
-<!--        {{ form.timestamp }} <br>-->
-
         {{ form }}
 
         <button type="submit" class="btn btn-success">Create</button>

@@ -7,9 +7,28 @@ from .models import Task, Calendar
 from datetime import datetime
 
 
+def save_last_calendar(response: HttpResponse, path):
+    one_year = 365 * 24 * 60 * 60
+    response.set_cookie('last_calendar', path, max_age=one_year)
+
+
 def home(request):
     context = {"title": "Homepage"}
     return render(request, "Calendar/index.html", context)
+
+
+def get_nearest_month(year, month):
+    """Returns tuple of tuples: ((y_prev, m_prev), (y_next, m_next))"""
+    if month == 12:
+        next_ = (year + 1, 1)
+        previous = (year, 11)
+    elif month == 1:
+        next_ = (year, 2)
+        previous = (year - 1, 12)
+    else:
+        next_ = (year, month + 1)
+        previous = (year, month - 1)
+    return previous, next_
 
 
 def my_calendar(request, path, year, month):
@@ -19,21 +38,26 @@ def my_calendar(request, path, year, month):
         return render(request, "Calendar/404.html", {"text": "calendar not found", "title": "Calendar is not found"})
     c = calendar_engine.Calendar()
     tasks = {}
-    date_list_str = []
+    month_string = []
     for weak in c.monthdatescalendar(year, month):
-        weak_str = []
+        week = []
         for date in weak:
             task = Task()
-            mas = date.ctime().split()
-            day_str = mas[1] + ' ' + mas[2] + ', ' + mas[4]
-            weak_str.append(day_str)
-            tasks[day_str] = task.get_day_tasks(date, calendar)
-        date_list_str.append(weak_str)
-
-    print('Массив заданий - ', tasks)
-    print('Массив даты в строчном виде - ', date_list_str)
-    context = {"month": date_list_str, "tasks": tasks}
-    return render(request, "Calendar/my_calendar.html", context)
+            data_els = date.ctime().split()
+            str_date = data_els[1] + ' ' + data_els[2] + ', ' + data_els[4]
+            week.append(str_date)
+            tasks[str_date] = task.get_day_tasks(date, calendar)
+        month_string.append(week)
+    previous, next_ = get_nearest_month(year, month)
+    previous_link = f"/{path}/{previous[0]}/{previous[1]}"
+    next_link = f"/{path}/{next_[0]}/{next_[1]}"
+    context = {"month": c.monthdatescalendar(year, month),
+               "tasks": tasks, "month_string": month_string,
+               "next_link": next_link,
+               "previous_link": previous_link}
+    resp = render(request, "Calendar/my_calendar.html", context)
+    save_last_calendar(resp, path)
+    return resp
 
 
 def new_calendar(request):
@@ -49,7 +73,7 @@ def new_calendar(request):
             path = form.instance.path
             month = datetime.now().month
             year = datetime.now().year
-            return redirect(f"/my_calendar/{path}/{year}/{month}")
+            return redirect(f"/{path}/{year}/{month}")
         else:
             error = 'Problems with this calendar. Try again.'
             context = {"error": error}
@@ -98,3 +122,16 @@ def get_calendar(request, path):
 def support(request):
     context = {"title": "OurContacts"}
     render(request, 'Calendar/support.html', context=context)
+
+
+def current_month_calendar(request, path):
+    year, month = datetime.today().year, datetime.today().month
+    return redirect(f"/{path}/{year}/{month}")
+
+
+def last(request):
+    """Get last opened calendar by user"""
+    if request.COOKIES.get('last_calendar'):
+        return redirect(f"/{request.COOKIES.get('last_calendar')}")
+    else:
+        return redirect("/new")

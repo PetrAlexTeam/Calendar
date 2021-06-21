@@ -1,25 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    {% load static %}
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="{% static 'css/your_calendar.css' %}" type="text/css">
-    <title>Your calendar</title>
-</head>
-<body>
+{% extends 'Calendar/base.html' %}
+{% block body %}
 <table>
-    {% for weak in month  %}
+    {% for weak in month_string  %}
         <tr>
             {% for date in weak %}
-                <th> {{ date.day }} </th>
-                <th> {{ tasks[date]}} </th>
+                <th> {{ date }} </th>
+                <th>
+                    {% for day_dict, day_tasks in tasks.items %}
+                        {% if day_dict == date %}
+                            {% for task in day_tasks %}
+                                {{ task.name }}
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %} </th>
             {% endfor %}
         </tr>
 
     {% endfor %}
 </table>
 
+<a href="{{ previous_link }}"> <button>Previous</button></a>
+<a href="{{ next_link }}"> <button>Next</button></a>
 
-
-</body>
-</html>
+{% endblock %}

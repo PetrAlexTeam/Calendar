@@ -1,45 +1,11 @@
-<!DOCTYPE html>
-<html style="font-size: 16px;">
-  <head>
-      {% load static %}
-      <link rel="stylesheet" href="{% static 'css/stylesheet.css' %}" type="text/css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="utf-8">
-    <title>Главная</title>
+{% extends "Calendar/base.html" %}
+{% load static %}
 
-      <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
-      <script type="text/javascript" src="{% static 'js/scripts.js' %}"></script>
+{% block title %} Главная {% endblock %}
 
-  </head>
-
-  <body>
-    <nav>
-        <div class="top_navigator">
-            <div  id="logo-box" style="float:left;">
-                <h1 id="logo">
-                      <a href="http://youtube.com" class="" >
-                      <img src="{% static 'img/logo.png' %}" id="img" width="60px">
-                    </a>
-                </h1>
-            </div>
-            <ul class="table">
-                <li class="top-navigator"><a class="button" href="/new" id="main_link" style="border: 1px solid blue;">Create Calendar</a></li>
-                <li class="top-navigator"><a class="button" href="/my_calendar" style="#">My Calendar</a></li>
-                <li class="top-navigator"><a class="button" href="/index" style="#">Homepage</a></li>
-               <li class="top-navigator"><a class="button" href="/support" style="#">Support</a></li>
-            </ul>
-        </div>
-    </nav>
-
-
-
+{% block body %}
 
       <div class="">
         <img class="my_background-image" src="{% static 'img/calendar-background.jpg' %}" id ="my_back" data-image-width="600" data-image-height="398">
       </div>
-
-    <footer class="footer" id="my_footer">
-        this is footer baby
-    </footer>
-  </body>
-</html>
+{% endblock %}

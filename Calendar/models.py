@@ -27,19 +27,18 @@ class Calendar(models.Model):
 class Task(models.Model):
     @staticmethod
     def get_day_tasks(date: datetime.date, calendar: Calendar) -> list:
-        return list(Task.objects.filter(day=date.day, month=date.month, year=date.year, calendar=calendar).order_by("timestamp"))
-
+        return list(Task.objects.filter(day=date.day, month=date.month, year=date.year, calendar=calendar).order_by(
+            "timestamp"))
 
     def save(self, *args, **kwargs):
-        print(self.day)
-        if True:
-            print(type(self.timestamp))
-            dt = datetime.fromtimestamp(self.timestamp)
-            self.year = dt.year
-            self.month = dt.month
-            self.day = dt.day
-            self.hour = dt.hour
-            self.minute = dt.minute
+        if self.author == "":
+            self.author = self.calendar.author
+        dt = datetime.fromtimestamp(self.timestamp)
+        self.year = dt.year
+        self.month = dt.month
+        self.day = dt.day
+        self.hour = dt.hour
+        self.minute = dt.minute
         return super().save(*args, **kwargs)
 
     name = models.CharField(max_length=63, name="name", help_text="Название")

@@ -98,6 +98,7 @@ def support(request):
     context = {"title": "OurContacts"}
     render(request, 'Calendar/support.html', context=context)
 
-def current_month_calendar(request):
+
+def current_month_calendar(request, path):
     year, month = datetime.today().year, datetime.today().month
-    return redirect(f"/path")
+    return redirect(f"/{path}/{year}/{month}")

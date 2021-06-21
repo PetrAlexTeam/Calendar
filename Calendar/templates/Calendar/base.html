@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
     {% load static %}
-      <link rel="stylesheet" href="{% static 'css/stylesheet.css' %}" type="text/css">
-    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/stylesheet.css' %}" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
     <title>
         {% if title %}
             {% block title %}
@@ -20,7 +21,7 @@
 
 <body>
  {# Шапка #}
-    <nav>
+ <nav>
         <div class="top_navigator">
             <div  id="logo-box" style="float:left;">
                 <h1 id="logo">
@@ -31,16 +32,23 @@
             </div>
             <ul class="table">
                 <li class="top-navigator"><a class="button" href="/new" id="main_link" style="border: 1px solid blue;">Create Calendar</a></li>
-                <li class="top-navigator"><a class="button" href="/my_calendar" style="#">My Calendar</a></li>
-               <li class="top-navigator"><a class="button" href="/index" style="#">Homepage</a></li>
-               <li class="top-navigator"><a class="button" href="/support" style="#">Support</a></li>
+                <li class="top-navigator"><a class="button" href="/last" style="#">Last Calendar</a></li>
             </ul>
         </div>
     </nav>
 
-{% block body %}
 
-{% endblock %}
+
+
+
+    {% block body %}
+
+    {% endblock %}
+
+    <footer class="footer" id="my_footer">
+        this is footer baby
+    </footer>
+
 </body>
 
 

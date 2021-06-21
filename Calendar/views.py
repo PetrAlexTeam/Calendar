@@ -48,7 +48,7 @@ def new_calendar(request):
             path = form.instance.path
             month = datetime.now().month
             year = datetime.now().year
-            return redirect(f"/my_calendar/{path}/{year}/{month}")
+            return redirect(f"/{path}/{year}/{month}")
         else:
             error = 'Problems with this calendar. Try again.'
             context = {"error": error}
@@ -97,3 +97,7 @@ def get_calendar(request, path):
 def support(request):
     context = {"title": "OurContacts"}
     render(request, 'Calendar/support.html', context=context)
+
+def current_month_calendar(request):
+    year, month = datetime.today().year, datetime.today().month
+    return redirect(f"/path")

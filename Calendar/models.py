@@ -21,7 +21,10 @@ class Calendar(models.Model):
                             unique=True)
 
     def __str__(self):
-        return f"{self.name} {self.description[:25]} "
+        return f"{self.name} {self.description[:25]} {self.author}"
+
+    def __repr__(self):
+        return str(self)
 
 
 class Task(models.Model):
@@ -55,5 +58,11 @@ class Task(models.Model):
     calendar = models.ForeignKey(Calendar, on_delete=models.CASCADE)
     creator = models.CharField(max_length=63, name='author', help_text='Автор', default="Anonymous")
 
+    def get_str_date(self):
+        return f"{self.day}-{self.month}-{self.year} {self.hour}:{self.minute}"
+
     def __str__(self):
-        return f"{self.name} {self.description} {self.timestamp}"
+        return f"{self.name} {self.description} {self.author} {self.timestamp} {self.get_str_date}"
+
+    def __repr__(self):
+        return str(self)

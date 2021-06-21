@@ -7,6 +7,10 @@ from .models import Task, Calendar
 from datetime import datetime
 
 
+def save_last_calendar(response: HttpResponse, path):
+    response.set_cookie('last_calendar', path)
+
+
 def home(request):
     context = {"title": "Homepage"}
     return render(request, "Calendar/index.html", context)
@@ -29,10 +33,10 @@ def my_calendar(request, path, year, month):
             week.append(str_date)
             tasks[str_date] = task.get_day_tasks(date, calendar)
         month_string.append(week)
-    print(tasks)
-    print(month_string)
     context = {"month": c.monthdatescalendar(year, month), "tasks": tasks, "month_string": month_string}
-    return render(request, "Calendar/my_calendar.html", context)
+    resp = render(request, "Calendar/my_calendar.html", context)
+    save_last_calendar(resp, path)
+    return resp
 
 
 def new_calendar(request):

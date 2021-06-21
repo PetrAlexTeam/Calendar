@@ -17,6 +17,20 @@ def home(request):
     return render(request, "Calendar/index.html", context)
 
 
+def get_nearest_month(year, month):
+    """Returns tuple of tuples: ((y_prev, m_prev), (y_next, m_next))"""
+    if month == 12:
+        next_ = (year + 1, 1)
+        previous = (year, 11)
+    elif month == 1:
+        next_ = (year, 2)
+        previous = (year - 1, 12)
+    else:
+        next_ = (year, month + 1)
+        previous = (year, month - 1)
+    return previous, next_
+
+
 def my_calendar(request, path, year, month):
     try:
         calendar = Calendar.objects.get(path=path)
@@ -34,7 +48,13 @@ def my_calendar(request, path, year, month):
             week.append(str_date)
             tasks[str_date] = task.get_day_tasks(date, calendar)
         month_string.append(week)
-    context = {"month": c.monthdatescalendar(year, month), "tasks": tasks, "month_string": month_string}
+    previous, next_ = get_nearest_month(year, month)
+    previous_link = f"/{path}/{previous[0]}/{previous[1]}"
+    next_link = f"/{path}/{next_[0]}/{next_[1]}"
+    context = {"month": c.monthdatescalendar(year, month),
+               "tasks": tasks, "month_string": month_string,
+               "next_link": next_link,
+               "previous_link": previous_link}
     resp = render(request, "Calendar/my_calendar.html", context)
     save_last_calendar(resp, path)
     return resp

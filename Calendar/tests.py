@@ -2,7 +2,7 @@ import datetime
 
 from django.test import TestCase
 from .models import Task, Calendar
-
+from .views import get_nearest_month
 
 # Create your tests here.
 
@@ -19,3 +19,19 @@ class ModelsTests(TestCase):
     def test_easy_task_date(self):
         tasks_15_jan = Task.get_day_tasks(date=datetime.date(day=15, month=1, year=2021), calendar=self.cal)
         self.assertIn(self.e_task, tasks_15_jan)
+
+class OtherTests(TestCase):
+    def test_get_nearest_month_1(self):
+        year, month = 2020, 3
+        self.assertEqual(get_nearest_month(year, month), ((2020, 2), (2020, 4)))
+
+    def test_get_nearest_month_2(self):
+        year, month = 2020, 1
+        self.assertEqual(get_nearest_month(year, month), ((2019, 12), (2020, 2)))
+
+    def test_get_nearest_month_3(self):
+        year, month = 2020, 12
+        self.assertEqual(get_nearest_month(year, month), ((2020, 11), (2021, 1)))
+
+
+

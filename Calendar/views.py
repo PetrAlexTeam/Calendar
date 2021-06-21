@@ -135,3 +135,7 @@ def last(request):
         return redirect(f"/{request.COOKIES.get('last_calendar')}")
     else:
         return redirect("/new")
+
+
+def get_task(request, path, task_id):
+    """Open task [ID: task_id] page"""

@@ -107,3 +107,11 @@ def support(request):
 def current_month_calendar(request, path):
     year, month = datetime.today().year, datetime.today().month
     return redirect(f"/{path}/{year}/{month}")
+
+
+def last(request):
+    """Get last opened calendar by user"""
+    if request.COOKIES.get('last_calendar'):
+        return redirect(f"/{request.COOKIES.get('last_calendar')}")
+    else:
+        return redirect("/new")

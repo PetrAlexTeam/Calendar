@@ -62,7 +62,7 @@ class Task(models.Model):
         return f"{self.day}-{self.month}-{self.year} {self.hour}:{self.minute}"
 
     def __str__(self):
-        return f"{self.name} {self.description} {self.author} {self.timestamp} {self.get_str_date}"
+        return f"{self.name} {self.description} {self.author} {self.timestamp}"# {self.get_str_date}"
 
     def __repr__(self):
         return str(self)

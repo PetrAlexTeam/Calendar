@@ -19,15 +19,19 @@ def my_calendar(request, path, year, month):
         return render(request, "Calendar/404.html", {"text": "calendar not found", "title": "Calendar is not found"})
     c = calendar_engine.Calendar()
     tasks = {}
+    month_string = []
     for weak in c.monthdatescalendar(year, month):
+        week = []
         for date in weak:
             task = Task()
-            mas = date.ctime().split()
-            date_to_str = mas[1] + ' ' + mas[2] + ', ' + mas[4]
-            print(date_to_str)
-            tasks[date_to_str] = task.get_day_tasks(date, calendar)
+            data_els = date.ctime().split()
+            str_date = data_els[1] + ' ' + data_els[2] + ', ' + data_els[4]
+            week.append(str_date)
+            tasks[str_date] = task.get_day_tasks(date, calendar)
+        month_string.append(week)
     print(tasks)
-    context = {"month": c.monthdatescalendar(year, month), "tasks": tasks}
+    print(month_string)
+    context = {"month": c.monthdatescalendar(year, month), "tasks": tasks, "month_string": month_string}
     return render(request, "Calendar/my_calendar.html", context)
 
 

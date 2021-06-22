@@ -3,13 +3,19 @@ table{
     width: 800px;
     margin:auto;
 }
+th{
+    font-weight: lighter;
+}
 td{
     border: 1px solid #AFB4D4;
+
 }
 td a{
     text-decoration: none;
     font-size:20px;
     font-family:Gill Sans, sans-serif;
+    font-weight: lighter;
+    text-align: right;
 }
 a:hover{
     color:#D49BA5;
@@ -21,25 +27,24 @@ a:hover{
 .right {
     transform: rotate(-45deg);
     -webkit-transform: rotate(-45deg);
-    float: right;
+
 
 }
 .right_span span{
     position: absolute;
     margin: 30px;
     height
-    margin-right: 300px;
+    margin-right: 150px;
 }
 .left {
     transform: rotate(135deg);
     -webkit-transform: rotate(135deg);
-    float: left;
-    margin-left: 10px;
+
 }
 .left_span span{
     position: absolute;
     margin: 30px;
-    margin-left: 300px;
+    margin-left: 150px;
 }
 i {
     border: solid black;

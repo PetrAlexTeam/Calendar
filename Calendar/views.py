@@ -9,6 +9,7 @@ from .models import Task, Calendar
 from datetime import datetime
 from django.db.models import ObjectDoesNotExist
 
+
 def save_last_calendar(response: HttpResponse, path):
     one_year = 365 * 24 * 60 * 60
     response.set_cookie('last_calendar', path, max_age=one_year)
@@ -56,7 +57,9 @@ def my_calendar(request, path, year, month):
     context = {"month": c.monthdatescalendar(year, month),
                "tasks": tasks, "month_string": month_string,
                "next_link": next_link,
-               "previous_link": previous_link}
+               "previous_link": previous_link,
+               "calendar": calendar
+               }
     resp = render(request, "Calendar/my_calendar.html", context)
     save_last_calendar(resp, path)
     return resp
@@ -146,5 +149,5 @@ def get_task(request, path, task_id):
         task = Task.objects.get(id=task_id, calendar=calendar)
     except ObjectDoesNotExist:
         return render(request, "Calendar/404.html", {"text": "Something going wrong", "title": "Something going wrong"})
-    context = {"task": task, "calendar_link": url("current_month_calendar", path)}
+    context = {"task": task, "calendar_link": str(path) + "/tasks/" + str(task_id)} # Переделать через url stupid jija
     return render(request, "Calendar/task.html", context=context)

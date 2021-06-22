@@ -1,18 +1,22 @@
 {% extends 'Calendar/base.html' %}
+{% block head %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/calendar.css' %}" type="text/css">
+{% endblock %}
 {% block body %}
-<table>
+<table id="calendar">
     {% for weak in month_string  %}
         <tr>
             {% for date in weak %}
                 <th> {{ date }} </th>
-                <th>
+                <td id="tasks">
                     {% for day_dict, day_tasks in tasks.items %}
                         {% if day_dict == date %}
                             {% for task in day_tasks %}
-                                {{ task.name }}
+                                <a href=" {% url 'task' calendar.path task.id %}">{{ task.name }}</a>
                             {% endfor %}
                         {% endif %}
-                    {% endfor %} </th>
+                    {% endfor %} </td>
             {% endfor %}
         </tr>
 

@@ -1,11 +1,13 @@
+import django
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.template.defaulttags import url
 from django.views.debug import technical_404_response
 import calendar as calendar_engine
 from .forms import NewCalendarForm, AddTaskForm
 from .models import Task, Calendar
 from datetime import datetime
-
+from django.db.models import ObjectDoesNotExist
 
 def save_last_calendar(response: HttpResponse, path):
     one_year = 365 * 24 * 60 * 60
@@ -135,3 +137,14 @@ def last(request):
         return redirect(f"/{request.COOKIES.get('last_calendar')}")
     else:
         return redirect("/new")
+
+
+def get_task(request, path, task_id):
+    """Open task [ID: task_id] page"""
+    try:
+        calendar = Calendar.objects.get(path=path)
+        task = Task.objects.get(id=task_id, calendar=calendar)
+    except ObjectDoesNotExist:
+        return render(request, "Calendar/404.html", {"text": "Something going wrong", "title": "Something going wrong"})
+    context = {"task": task, "calendar_link": url("current_month_calendar", path)}
+    return render(request, "Calendar/task.html", context=context)

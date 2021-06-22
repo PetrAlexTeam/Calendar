@@ -16,7 +16,7 @@ body {margin:0;}
     margin: 20px;
 }
 
-ul {
+.navigate_list {
   background: #C0D4C6;
   list-style: none;
   margin: 0px;
@@ -30,7 +30,7 @@ ul {
   height: 100px;
 }
 
-li a{
+.top_navigator li a{
     display: block;
     padding: 15px;
     text-decoration: none;
@@ -38,7 +38,7 @@ li a{
     transition: .5s linear;
     color: #000000;
 }
-li a:after {
+.top_navigator li a:after {
   content: "";
   width: 0;
   height: 2px;
@@ -47,7 +47,7 @@ li a:after {
   background: #868686;
   transition: all 0.5s linear;
 }
-li a:hover:after{
+.top_navigator li a:hover:after{
   width: 100%;
 }
 #logo{

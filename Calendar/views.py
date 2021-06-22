@@ -41,6 +41,7 @@ def my_calendar(request, path, year, month):
         return render(request, "Calendar/404.html", {"text": "calendar not found", "title": "Calendar is not found"})
     c = calendar_engine.Calendar()
     tasks = {}
+    dateto_numday = {}
     month_string = []
     for weak in c.monthdatescalendar(year, month):
         week = []
@@ -49,8 +50,10 @@ def my_calendar(request, path, year, month):
             data_els = date.ctime().split()
             str_date = data_els[1] + ' ' + data_els[2] + ', ' + data_els[4]
             week.append(str_date)
+
             tasks[str_date] = task.get_day_tasks(date, calendar)
         month_string.append(week)
+
     previous, next_ = get_nearest_month(year, month)
     previous_link = f"/{path}/{previous[0]}/{previous[1]}"
     next_link = f"/{path}/{next_[0]}/{next_[1]}"
@@ -121,7 +124,7 @@ def get_calendar(request, path):
     except Calendar.DoesNotExist:
         return render(request, "Calendar/404.html", {"text": "calendar not found", "title": "Calendar is not found"})
     tasks = Task.objects.filter(calendar=calendar).order_by("timestamp")
-    return render(request, "Calendar/calendar.html", {"tasks": tasks, "calendar": calendar})
+    return render(request, "Calendar/tasks.html", {"tasks": tasks, "calendar": calendar})
 
 
 def support(request):

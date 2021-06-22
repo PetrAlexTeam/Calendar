@@ -4,7 +4,15 @@
     <link rel="stylesheet" href="{% static 'css/calendar.css' %}" type="text/css">
 {% endblock %}
 {% block body %}
-<i class="arrow left"></i>
+<div class="navigate">
+    <span class="left_div">
+         <a href="{{ previous_link }}"> <i class="arrow left"></i></a>
+    </span>
+    <span class="right_div">
+        <a href="{{ next_link }}"> <i class="arrow right"></i></a>
+    </span>
+</div>
+
 <table id="calendar">
     {% for weak in month_string  %}
        <tr>
@@ -28,9 +36,9 @@
         </tr>
     {% endfor %}
 </table>
-<i class="arrow right"></i>
 
-<a href="{{ previous_link }}"> <button>Previous</button></a>
-<a href="{{ next_link }}"> <button>Next</button></a>
+
+
+
 
 {% endblock %}

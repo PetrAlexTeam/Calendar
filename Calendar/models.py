@@ -36,12 +36,13 @@ class Task(models.Model):
     def save(self, *args, **kwargs):
         if self.author == "":
             self.author = self.calendar.author
-        dt = datetime.fromtimestamp(self.timestamp)
-        self.year = dt.year
-        self.month = dt.month
-        self.day = dt.day
-        self.hour = dt.hour
-        self.minute = dt.minute
+        if self.year is None:
+            dt = datetime.fromtimestamp(self.timestamp)
+            self.year = dt.year
+            self.month = dt.month
+            self.day = dt.day
+            self.hour = dt.hour
+            self.minute = dt.minute
         return super().save(*args, **kwargs)
 
     name = models.CharField(max_length=63, name="name", help_text="Название")

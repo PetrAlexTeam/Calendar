@@ -1,57 +1,93 @@
+div.month_navigate{
+    width: 70%;
+    height: 900px;
+}
+body {
+    margin:0px auto;
 
+}
+#Table
 table{
-    width: 800px;
+    width: 70%;
     margin:auto;
 }
-th{
-    font-weight: lighter;
-}
-td{
-    border: 1px solid #AFB4D4;
-
-}
-td a{
-    text-decoration: none;
-    font-size:20px;
-    font-family:Gill Sans, sans-serif;
-    font-weight: lighter;
-    text-align: right;
-}
-a:hover{
-    color:#D49BA5;
-}
-.navigate div{
-    height: 100px;
-    with: 500px;
-}
-.right {
-    transform: rotate(-45deg);
-    -webkit-transform: rotate(-45deg);
+    th{
+        font-weight: lighter;
+    }
+    td{
+        border: 1px solid #AFB4D4;
+        with: 20px;
+        height: 100px;
+    }
+    td a{
+        text-decoration: none;
+        font-size:15px;
+        font-family:Gill Sans, sans-serif;
+        color:#1E94D4;
+        font-weight: lighter;
+        text-align: right;
+    }
+    a:hover{
+        color:#D49BA5;
+    }
 
 
-}
-.right_span span{
-    position: absolute;
-    margin: 30px;
-    height
-    margin-right: 150px;
-}
-.left {
-    transform: rotate(135deg);
-    -webkit-transform: rotate(135deg);
 
+ul.navigate{
+     height: 40px;
+     with: 70%;
+
+     list-style-type: none;
 }
-.left_span span{
-    position: absolute;
-    margin: 30px;
-    margin-left: 150px;
-}
-i {
+    ul li{
+        display:inline;
+    }
+    ul li.li_left {
+        float: left;
+        with:30%;
+    }
+    ul li.li_right {
+        with:30%;
+        float: right;
+
+    }
+    ul li.li_center{
+
+        position: absolute;
+
+        left: 35%;
+
+        /*float: center;
+        text-align: center;
+        */
+    }
+    ul li div{
+        display: inline-block;
+
+        width: 98px;
+        height: 20px;
+    }
+    i {
     border: solid black;
     border-width: 0 3px 3px 0;
     display: inline-block;
     padding: 5px;
+    }
+    .right {
+        transform: rotate(-45deg);
+        -webkit-transform: rotate(-45deg);
+    }
+
+    .left {
+        transform: rotate(135deg);
+        -webkit-transform: rotate(135deg);
+
+    }
+div.today_task {
+    width: 70%;
+    height: 200px;
 }
+
 /*li a{
     display: block;
     padding: 15px;

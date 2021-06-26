@@ -57,11 +57,15 @@ def my_calendar(request, path, year, month):
     previous, next_ = get_nearest_month(year, month)
     previous_link = f"/{path}/{previous[0]}/{previous[1]}"
     next_link = f"/{path}/{next_[0]}/{next_[1]}"
+    task = Task()
+    
+    today_task = task.get_day_tasks(datetime.now(), calendar)
     context = {"month": c.monthdatescalendar(year, month),
                "tasks": tasks, "month_string": month_string,
                "next_link": next_link,
                "previous_link": previous_link,
-               "calendar": calendar
+               "calendar": calendar,
+               "today_task": today_task,
                }
     resp = render(request, "Calendar/my_calendar.html", context)
     save_last_calendar(resp, path)

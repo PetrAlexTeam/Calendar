@@ -26,7 +26,7 @@ class AddTaskForm(forms.Form):
         task.date = user_data
         task.name = self.cleaned_data['name']
         task.description = self.cleaned_data['description']
-        task.creator = self.cleaned_data['author']
+        task.author = self.cleaned_data['author']
         task.timestamp = user_data.replace(tzinfo=datetime.timezone.utc).timestamp()
         task.year = user_data.year
         task.month = user_data.month

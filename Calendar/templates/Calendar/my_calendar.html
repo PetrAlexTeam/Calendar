@@ -28,7 +28,13 @@
             {% for weak in month_string  %}
                <tr>
                    {% for date in weak %}
-                        <th> {{ date }} </th>
+                        <th>
+                            {% for date_key, day_num in days.items %}
+                                {% if date == date_key %}
+                                    {{ day_num }}
+                                {% endif %}
+                            {% endfor %}
+                        </th>
                     {% endfor %}
                </tr>
 
@@ -38,12 +44,12 @@
                     <td id="tasks">
                         <ul>
                             {% for day_dict, day_tasks in tasks.items %}
-                            {% if day_dict == date %}
-                                {% for task in day_tasks %}
-                                    <li><a href=" {% url 'task' calendar.path task.id %}">{{ task.name }}</a></li>
-                                {% endfor %}
-                            {% endif %}
-                        {% endfor %}
+                                {% if day_dict == date %}
+                                    {% for task in day_tasks %}
+                                        <li><a href=" {% url 'task' calendar.path task.id %}">{{ task.name }}</a></li>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endfor %}
 
                         </ul>
                     </td>

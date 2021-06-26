@@ -41,7 +41,7 @@ def my_calendar(request, path, year, month):
         return render(request, "Calendar/404.html", {"text": "calendar not found", "title": "Calendar is not found"})
     c = calendar_engine.Calendar()
     tasks = {}
-    dateto_numday = {}
+    days = {}
     month_string = []
     for weak in c.monthdatescalendar(year, month):
         week = []
@@ -50,7 +50,7 @@ def my_calendar(request, path, year, month):
             data_els = date.ctime().split()
             str_date = data_els[1] + ' ' + data_els[2] + ', ' + data_els[4]
             week.append(str_date)
-
+            days[str_date] = data_els[2] # Save day number only
             tasks[str_date] = task.get_day_tasks(date, calendar)
         month_string.append(week)
 
@@ -66,6 +66,7 @@ def my_calendar(request, path, year, month):
                "previous_link": previous_link,
                "calendar": calendar,
                "today_task": today_task,
+               "days": days
                }
     resp = render(request, "Calendar/my_calendar.html", context)
     save_last_calendar(resp, path)

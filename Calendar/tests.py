@@ -44,6 +44,26 @@ class NewTaskFormTest(TestCase):
         self.assertEqual(Task.objects.get(name=form_data["name"], calendar=self.cal).year, 2020)
         self.assertEqual(Task.objects.get(name=form_data["name"], calendar=self.cal).hour, 15)
 
+    def test_create_task_with_wrong_date(self):
+        form_data = {"name": "AutoTestCal12331",
+                     "description": "I am created by Robo",
+                     "author": "tests.py",
+                     "date": "5 Jun 2020, 19:30"}
+        form = AddTaskForm(data=form_data)
+        form.is_valid()
+        self.assertRaises(ValueError, form.save, calendar=self.cal)
+
+    def test_save_task_with_no_author(self):
+        form_data = {"name": "AutoTestCal12331",
+                     "description": "I am created by Robo",
+                     "author": "",
+                     "date": "2020-11-10T15:45"}
+        form = AddTaskForm(data=form_data)
+        form.is_valid()
+        form.save(self.cal)
+        self.assertEqual(Task.objects.get(name=form_data["name"], calendar=self.cal).author, self.cal.author)
+
+
 class OtherTests(TestCase):
     def test_get_nearest_month_1(self):
         year, month = 2020, 3

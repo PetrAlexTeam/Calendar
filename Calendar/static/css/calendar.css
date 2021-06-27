@@ -1,23 +1,49 @@
-div.month_navigate{
-    width: 70%;
-    height: 900px;
-}
 body {
     margin:0px auto;
 
 }
-#Table
-table{
+div.all{
+    margin-right: 0px;
+    height:1000px;
+    white-space: nowrap;
+    overflow-x: auto;
+}
+div.today_task {
+    display: inline-block;
+    float: right;
+    margin-right: 10%;
+    height: 900px;
+}
+div.month_navigate{
     width: 70%;
-    margin:auto;
+    height: 900px;
+    float: left;
+    margin-right: 5%;
+    margin-left: 0px;
+    display: inline-block;
+}
+/*Table*/
+table{
+    width: 100%;
+    margin-right: 0px;
 }
     th{
         font-weight: lighter;
     }
     td{
         border: 1px solid #AFB4D4;
-        with: 20px;
+
+        with: 14%;
         height: 100px;
+    }
+    td ul{
+        margin-left: 0px;
+        padding-left: 0px;
+    }
+    td ul li {
+        display: block;
+        text-align: left;
+        padding: 0;
     }
     td a{
         text-decoration: none;
@@ -25,7 +51,7 @@ table{
         font-family:Gill Sans, sans-serif;
         color:#1E94D4;
         font-weight: lighter;
-        text-align: right;
+        text-align: left;
     }
     a:hover{
         color:#D49BA5;
@@ -35,8 +61,8 @@ table{
 
 ul.navigate{
      height: 40px;
-     with: 70%;
-
+     with: 100%;
+    display: block;
      list-style-type: none;
 }
     ul li{
@@ -44,17 +70,18 @@ ul.navigate{
     }
     ul li.li_left {
         float: left;
-        with:30%;
+        text-align: left;
+        with:23%;
     }
     ul li.li_right {
-        with:30%;
+        with:23%;
         float: right;
-
+        text-align: center;
     }
     ul li.li_center{
 
         position: absolute;
-
+        with:23%;
         left: 35%;
 
         /*float: center;
@@ -83,10 +110,7 @@ ul.navigate{
         -webkit-transform: rotate(135deg);
 
     }
-div.today_task {
-    width: 70%;
-    height: 200px;
-}
+
 
 /*li a{
     display: block;

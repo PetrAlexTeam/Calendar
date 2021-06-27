@@ -5,68 +5,69 @@
 {% endblock %}
 
 {% block body %}
-
-    <div class="month_navigate">
-        <ul class="navigate">
-            <li class="li_left">
-                <div class="content">
-                    <a href="{{ previous_link }}"> <i class="arrow left"></i></a>
-                </div>
-            </li>
-            <li class="li_center">
-                <div class="content">
-                    Month
-                </div>
-            </li>
-            <li class="li_right">
-                <div class="content">
-                    <a href="{{ next_link }}"> <i class="arrow right"></i></a>
-                </div>
-            </li>
-        </ul>
-        <table id="calendar">
-            {% for weak in month_string  %}
-               <tr>
-                   {% for date in weak %}
-                        <th> {{ date }} </th>
-                    {% endfor %}
-               </tr>
-
-
-                <tr>
-                    {% for date in weak %}
-                    <td id="tasks">
-                        <ul>
-                            {% for day_dict, day_tasks in tasks.items %}
-                            {% if day_dict == date %}
-                                {% for task in day_tasks %}
-                                    <li><a href=" {% url 'task' calendar.path task.id %}">{{ task.name }}</a></li>
-                                {% endfor %}
-                            {% endif %}
+    <div class="all">
+        <div class="month_navigate">
+            <ul class="navigate">
+                <li class="li_left">
+                    <div class="content">
+                        <a href="{{ previous_link }}"> <i class="arrow left"></i></a>
+                    </div>
+                </li>
+                <li class="li_center">
+                    <div class="content">
+                        {{ current_month }}
+                    </div>
+                </li>
+                <li class="li_right">
+                    <div class="content">
+                        <a href="{{ next_link }}"> <i class="arrow right"></i></a>
+                    </div>
+                </li>
+            </ul>
+            <table>
+                {% for weak in month_string  %}
+                   <tr>
+                       {% for date in weak %}
+                            <th> {{ date }} </th>
                         {% endfor %}
+                   </tr>
 
-                        </ul>
-                    </td>
-                    {% endfor %}
-                </tr>
-            {% endfor %}
-        </table>
 
+                    <tr>
+                        {% for date in weak %}
+                        <td id="tasks">
+                            <ul>
+                                {% for day_dict, day_tasks in tasks.items %}
+                                {% if day_dict == date %}
+                                    {% for task in day_tasks %}
+                                        <li><a href=" {% url 'task' calendar.path task.id %}">{{ task.name }}</a></li>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+
+                            </ul>
+                        </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="today_task">
+            <h2>
+                Today Task
+            </h2>
+            <ul>
+                {% for task in today_task %}
+                    <li>
+                        {{ task }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
 
     <button onclick="location.href = '/{{ calendar.path }}/add'">Create Task</button>
-    <div class="today_task">
-        <h2>
-            Today Task
-        </h2>
-        <ul>
-            {% for task in today_task %}
-                <li>
-                    {{ task }}
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
+
 
 
 

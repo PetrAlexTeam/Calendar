@@ -60,12 +60,14 @@ def my_calendar(request, path, year, month):
     task = Task()
     
     today_task = task.get_day_tasks(datetime.now(), calendar)
+    current_month = datetime.strptime(str(month), "%m").month
     context = {"month": c.monthdatescalendar(year, month),
                "tasks": tasks, "month_string": month_string,
                "next_link": next_link,
                "previous_link": previous_link,
                "calendar": calendar,
                "today_task": today_task,
+               "current_month":current_month,
                }
     resp = render(request, "Calendar/my_calendar.html", context)
     save_last_calendar(resp, path)
@@ -156,5 +158,5 @@ def get_task(request, path, task_id):
         task = Task.objects.get(id=task_id, calendar=calendar)
     except ObjectDoesNotExist:
         return render(request, "Calendar/404.html", {"text": "Something going wrong", "title": "Something going wrong"})
-    context = {"task": task, "calendar_link": str(path) + "/tasks/" + str(task_id)} # Переделать через url stupid jija
+    context = {"task": task, "calendar": calendar} # Переделать через url stupid jija
     return render(request, "Calendar/task.html", context=context)

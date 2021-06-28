@@ -159,5 +159,11 @@ def get_task(request, path, task_id):
         task = Task.objects.get(id=task_id, calendar=calendar)
     except ObjectDoesNotExist:
         return render(request, "Calendar/404.html", {"text": "Something going wrong", "title": "Something going wrong"})
-    context = {"task": task, "calendar": calendar} # Переделать через url stupid jija
+    obj_task = Task()
+    date = datetime(task.year, task.month, task.day)
+    # print(date)
+    task_day = task.get_day_tasks(date, calendar)
+    context = {"task": task,
+               "calendar": calendar,
+               "task_day": task_day}
     return render(request, "Calendar/task.html", context=context)

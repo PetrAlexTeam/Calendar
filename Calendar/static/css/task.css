@@ -1,0 +1,22 @@
+div.parent{
+    height: 1000px;
+}
+div.child{
+    width: 40%;
+}
+div.day_tasks{
+    float: left;
+    margin-top: 2%;
+}
+div.Task{
+    float: right;
+
+}
+h1{
+    font-weight: lighter;
+}
+.day_tasks a{
+    border: 2px solid #A2B1D4;
+    font-size: 30px;
+    display: block;
+}

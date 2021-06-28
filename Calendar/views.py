@@ -50,7 +50,7 @@ def my_calendar(request, path, year, month):
             data_els = date.ctime().split()
             str_date = data_els[1] + ' ' + data_els[2] + ', ' + data_els[4]
             week.append(str_date)
-            days[str_date] = data_els[2] # Save day number only
+            days[str_date] = data_els[2]  # Save day number only
             tasks[str_date] = task.get_day_tasks(date, calendar)
         month_string.append(week)
 
@@ -60,7 +60,7 @@ def my_calendar(request, path, year, month):
     task = Task()
     
     today_task = task.get_day_tasks(datetime.now(), calendar)
-    current_month = datetime.strptime(str(month), "%m").month
+    current_month = datetime.strptime(str(month), "%m").strftime("%b")
     context = {"month": c.monthdatescalendar(year, month),
                "tasks": tasks, "month_string": month_string,
                "next_link": next_link,
@@ -68,7 +68,7 @@ def my_calendar(request, path, year, month):
                "calendar": calendar,
                "today_task": today_task,
                "current_month":current_month,
-               "days": days
+               "days": days,
                }
     resp = render(request, "Calendar/my_calendar.html", context)
     save_last_calendar(resp, path)

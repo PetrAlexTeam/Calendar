@@ -28,7 +28,13 @@
                 {% for weak in month_string  %}
                    <tr>
                        {% for date in weak %}
-                            <th> {{ date }} </th>
+                            <th>
+                                {% for date_key, day_num in days.items %}
+                                    {% if date == date_key %}
+                                        {{ day_num }}
+                                    {% endif %}
+                                {% endfor %}
+                            </th>
                         {% endfor %}
                    </tr>
 

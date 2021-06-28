@@ -11,21 +11,23 @@ div.all{
 div.today_task {
     display: inline-block;
     float: right;
-    margin-right: 10%;
+    width: 20%;
+    margin-right: 0%;
     height: 900px;
 }
 div.month_navigate{
     width: 70%;
     height: 900px;
     float: left;
-    margin-right: 5%;
-    margin-left: 0px;
+    margin-right: 2%;
+    margin-left: 0%;
     display: inline-block;
 }
 /*Table*/
 table{
     width: 100%;
     margin-right: 0px;
+    table-layout: fixed;
 }
     th{
         font-weight: lighter;
@@ -33,7 +35,7 @@ table{
     td{
         border: 1px solid #AFB4D4;
 
-        with: 14%;
+        with: 14vw;
         height: 100px;
     }
     td ul{
@@ -46,6 +48,7 @@ table{
         padding: 0;
     }
     td a{
+        width:100%;
         text-decoration: none;
         font-size:15px;
         font-family:Gill Sans, sans-serif;

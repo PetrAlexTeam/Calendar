@@ -26,13 +26,29 @@ class ModelsTests(TestCase):
         self.assertIn(self.e_task, tasks_15_jan)
 
 
+class NewCalendarFormTest(TestCase):
+    def setUp(self):
+        self.test_cal_name = "Test_calendar"
+
+    def test_create_calendar(self):
+        form_data = {"name": "AutoTestCalendarAAAA__--__12331",
+                     "description": "I am created by Robo",
+                     "author": "tests.py"
+                     }
+        form = NewCalendarForm(data=form_data)
+        form.is_valid()
+        form.save()
+        self.assertEqual(Calendar.objects.get(name=form_data["name"]).author, form_data["author"])
+        self.assertEqual(Calendar.objects.get(author=form_data["author"]).description, form_data["description"])
+
+
 class NewTaskFormTest(TestCase):
     def setUp(self):
         self.test_cal_name = "Test_calendar"
         self.cal = Calendar.objects.create(name=self.test_cal_name, description="Tester", author="TestClass")
 
     def test_create_new_task(self):
-        form_data = {"name": "AutoTestCal12331",
+        form_data = {"name": "AutoTestCalTask12331",
                      "description": "I am created by Robo",
                      "author": "tests.py",
                      "date": "2020-11-10T15:45"}

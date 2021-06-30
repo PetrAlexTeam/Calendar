@@ -4,17 +4,21 @@ textarea {
   padding : 10px;
   margin  : 10px 0 0 -10px;
   width   : 340px;
-  height  : 360px;
+  height  : 100px;
 
   resize  : none;
   overflow: auto;
 }
 button {
     background-color:#92B7F2;
+    border: none;
+    padding: 10px;
 }
+button:hover{
 
+}
 button:after {
-  content: " >>>";
+
 }
 
 button:hover,

@@ -1,17 +1,22 @@
+html{
+   overflow-y: hidden;
+   overflow-x: auto;
+}
 div.parent{
     height: 1000px;
-}
-div.child{
-    width: 40%;
-}
-div.day_tasks{
-    float: left;
-    margin-top: 2%;
-}
-div.Task{
-    float: right;
 
 }
+    div.child{
+        width: 40%;
+        height: 100%;
+    }
+    div.day_tasks{
+        float: left;
+        margin-top: 2%;
+    }
+    div.Task{
+        float: right;
+    }
 h1{
     font-weight: lighter;
 }

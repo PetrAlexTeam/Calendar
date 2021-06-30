@@ -1,28 +1,38 @@
+html{
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
 body {
     margin:0px auto;
-
 }
 div.all{
     margin-right: 0px;
     height:1000px;
     white-space: nowrap;
-    overflow-x: auto;
+
 }
-div.today_task {
-    display: inline-block;
-    float: right;
-    width: 20%;
-    margin-right: 0%;
-    height: 900px;
-}
-div.month_navigate{
-    width: 70%;
-    height: 900px;
-    float: left;
-    margin-right: 2%;
-    margin-left: 0%;
-    display: inline-block;
-}
+    div.today_task {
+        display: inline-block;
+        float: right;
+        width: 20%;
+        margin-right: 1%;
+        height: 900px;
+    }
+        h2, h3{
+            font-weight: lighter;
+        }
+        p{
+            white-space: pre-line;
+        }
+    div.month_navigate{
+        width: 70%;
+        height: 900px;
+        float: left;
+        margin-right: 2%;
+        margin-left: 0%;
+        display: inline-block;
+        display: inline-block;
+    }
 /*Table*/
 table{
     width: 100%;
@@ -65,7 +75,7 @@ table{
 ul.navigate{
      height: 40px;
      with: 100%;
-    display: block;
+     display: block;
      list-style-type: none;
 }
     ul.navigate li{

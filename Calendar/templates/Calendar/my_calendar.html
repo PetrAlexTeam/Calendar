@@ -67,7 +67,10 @@
             <ul>
                 {% for task in today_task %}
                     <li>
-                        {{ task }}
+                        <h3>{{ task.name }}</h3>
+                        <p>
+                            {{ task.description }}
+                        </p>
                     </li>
                 {% endfor %}
             </ul>

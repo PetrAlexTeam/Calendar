@@ -34,6 +34,12 @@ class Task(models.Model):
             "timestamp"))
 
     def save(self, *args, **kwargs):
+        if self.timestamp is None:
+            self.timestamp = datetime(year=self.year,
+                                      month=self.month,
+                                      day=self.day,
+                                      hour=self.hour,
+                                      minute=self.minute)
         if self.author == "":
             self.author = self.calendar.author
         if self.year is None:

@@ -28,6 +28,7 @@ body {margin:0;}
   margin: 0px;
   background-color: #C7D8EC;
   height: 100px;
+  position: relative;
 }
 
 .top_navigator li a{
@@ -50,10 +51,10 @@ body {margin:0;}
 .top_navigator li a:hover:after{
   width: 100%;
 }
-#logo{
-    text-align: center;
-    with: 100px;
-    margin: 20px;
+#logo_box{
+    position: absolute;
+    top: 17%;
+    left: 2%;
 }
 #main_link{
     border: 1px solid blue; /* Синяя рамка вокруг ссылок */

@@ -39,7 +39,7 @@ class Task(models.Model):
                                       month=self.month,
                                       day=self.day,
                                       hour=self.hour,
-                                      minute=self.minute)
+                                      minute=self.minute).timestamp()
         if self.author == "":
             self.author = self.calendar.author
         if self.year is None:

@@ -40,7 +40,7 @@ class Command(BaseCommand):
         date = start_date
         if 1 <= options["verbosity"] <= 2:
             pbar = tqdm(total=end_date.timestamp() - start_date.timestamp())
-        while date < end_date:  # TODO Add tqdm progress bar
+        while date < end_date:
             number_tasks = generate_day_task_num(tasks_number, prob)
             for i in range(number_tasks):
                 create_random_task(date_time=date, calendar=calendar)

@@ -38,7 +38,8 @@ class Command(BaseCommand):
 
         tasks_counter = 0
         date = start_date
-        if 1 <= options["verbosity"] <= 2:
+        show_pbar = 1 <= options["verbosity"] <= 2
+        if show_pbar:
             pbar = tqdm(total=end_date.timestamp() - start_date.timestamp())
         while date < end_date:
             number_tasks = generate_day_task_num(tasks_number, prob)
@@ -48,10 +49,10 @@ class Command(BaseCommand):
                     print(f"Creating task at {date}")
                 tasks_counter += 1
             delta = timedelta(days=1, hours=randint(0, 3))
-            if 1 <= options["verbosity"] <= 2:
+            if show_pbar:
                 pbar.update(delta.total_seconds())
             date += delta
-        if 1 <= options["verbosity"] <= 2:
+        if show_pbar:
             pbar.close()
         if options["verbosity"] == 0:
             return "OK"

@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 from functools import partial
 from random import randint
-
+from tqdm import tqdm
 from faker import Faker
 from django.core.management.base import BaseCommand
 from Calendar.models import Calendar, Task
@@ -38,6 +38,8 @@ class Command(BaseCommand):
 
         tasks_counter = 0
         date = start_date
+        if 1 <= options["verbosity"] <= 2:
+            pbar = tqdm(total=end_date.timestamp() - start_date.timestamp())
         while date < end_date:  # TODO Add tqdm progress bar
             number_tasks = generate_day_task_num(tasks_number, prob)
             for i in range(number_tasks):
@@ -46,10 +48,14 @@ class Command(BaseCommand):
                     print(f"Creating task at {date}")
                 tasks_counter += 1
             delta = timedelta(days=1, hours=randint(0, 3))
+            if 1 <= options["verbosity"] <= 2:
+                pbar.update(delta.total_seconds())
             date += delta
+        if 1 <= options["verbosity"] <= 2:
+            pbar.close()
         if options["verbosity"] == 0:
             return "OK"
-        return f"Created {tasks_counter} tasks for calendar with path {path}." # TODO Выводить ссылку
+        return f"Created {tasks_counter} tasks for calendar with path {path}."  # TODO Выводить ссылку
 
     def add_arguments(self, parser):
         parser.add_argument("-s", "--start",

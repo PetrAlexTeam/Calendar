@@ -88,7 +88,7 @@ def new_calendar(request):
             path = form.instance.path
             month = datetime.now().month
             year = datetime.now().year
-            return redirect(f"/{path}/{year}/{month}")
+            return redirect(f"/{path}/{year}/{month}") # TODO Переделать в джиджу
         else:
             error = 'Problems with this calendar. Try again.'
             context = {"error": error}

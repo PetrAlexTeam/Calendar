@@ -47,11 +47,12 @@ class Command(BaseCommand):
                 tasks_counter += 1
             delta = timedelta(days=1, hours=randint(0, 3))
             date += delta
-
-        return f"Created {tasks_counter} tasks"
+        if options["verbosity"] == 0:
+            return "OK"
+        return f"Created {tasks_counter} tasks for calendar with path {path}." # TODO Выводить ссылку
 
     def add_arguments(self, parser):
-        parser.add_argument("-s", "--start",  # TODO Recreate calendar
+        parser.add_argument("-s", "--start",
                             type=str,
                             help="Date from which to generate tasks",
                             default="2021-01-01T8:00")

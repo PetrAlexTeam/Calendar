@@ -69,6 +69,7 @@ def my_calendar(request, path, year, month):
                "today_task": today_task,
                "current_month":current_month,
                "days": days,
+
                }
     resp = render(request, "Calendar/my_calendar.html", context)
     save_last_calendar(resp, path)

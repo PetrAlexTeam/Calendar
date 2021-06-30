@@ -2,6 +2,8 @@
 {% block head %}
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/calendar.css' %}" type="text/css">
+    <script src="{% static 'js/jquery-3.6.0.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'js/some_js.js' %}" type="text/javascript"></script>
 {% endblock %}
 
 {% block body %}
@@ -72,6 +74,11 @@
             <div>
                 <button onclick="location.href = '/{{ calendar.path }}/add'">Create Task</button>
             </div>
+<!--            <a href="#">Copy link to Calendar</a>-->
+            <h2>Generated Share Links</h2>
+            <textarea id="share-links"></textarea>
+            <br>
+            <button>Copy to Clipboard</button>
         </div>
     </div>
 

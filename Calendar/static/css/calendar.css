@@ -68,20 +68,20 @@ ul.navigate{
     display: block;
      list-style-type: none;
 }
-    ul li{
+    ul.navigate li{
         display:inline;
     }
-    ul li.li_left {
+    ul.navigate li.li_left {
         float: left;
         text-align: left;
         with:23%;
     }
-    ul li.li_right {
+    ul.navigate li.li_right {
         with:23%;
         float: right;
         text-align: center;
     }
-    ul li.li_center{
+    ul.navigate li.li_center{
 
         position: absolute;
         with:23%;
@@ -91,17 +91,17 @@ ul.navigate{
         text-align: center;
         */
     }
-    ul li div{
+    ul.navigate li div{
         display: inline-block;
 
         width: 98px;
         height: 20px;
     }
     i {
-    border: solid black;
-    border-width: 0 3px 3px 0;
-    display: inline-block;
-    padding: 5px;
+        border: solid black;
+        border-width: 0 3px 3px 0;
+        display: inline-block;
+        padding: 5px;
     }
     .right {
         transform: rotate(-45deg);

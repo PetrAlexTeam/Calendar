@@ -3,6 +3,7 @@
 {% block head %}
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/task.css' %}" type="text/css">
+
 {% endblock %}
 
 {% block body %}
@@ -20,12 +21,12 @@
             <div class="#">
                 {% for day_task in task_day %}
                     <a href="{{ day_task.id }}">{{ day_task.name }}</a>
+                    <br>
 
                 {% endfor %}
             </div>
 
         </div>
-
     </div>
 
 

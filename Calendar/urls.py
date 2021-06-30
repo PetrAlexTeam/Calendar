@@ -11,6 +11,6 @@ urlpatterns = [
     path("<str:path>/tasks/<int:task_id>", views.get_task, name="task"),
     path('<str:path>/tasks', views.get_calendar, name="calendar_tasks"),
     path('<str:path>/add', views.add_task, name="add_task"),
-    path('<str:path>/<int:year>/<int:month>', views.my_calendar, name="month_calendar"),
+    path('<str:path>/<int:year>/<int:month>', views.show_calendar, name="month_calendar"),
     path('<str:path>', views.current_month_calendar, name="current_month_calendar")
 ]

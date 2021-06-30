@@ -34,7 +34,7 @@ def get_nearest_month(year, month):
     return previous, next_
 
 
-def my_calendar(request, path, year, month):
+def show_calendar(request, path, year, month):
     try:
         calendar = Calendar.objects.get(path=path)
     except Calendar.DoesNotExist:
@@ -57,9 +57,8 @@ def my_calendar(request, path, year, month):
     previous, next_ = get_nearest_month(year, month)
     previous_link = f"/{path}/{previous[0]}/{previous[1]}"
     next_link = f"/{path}/{next_[0]}/{next_[1]}"
-    task = Task()
     
-    today_task = task.get_day_tasks(datetime.now(), calendar)
+    today_task = Task.get_day_tasks(datetime.now(), calendar)
     current_month = datetime.strptime(str(month), "%m").strftime("%b")
     context = {"month": c.monthdatescalendar(year, month),
                "tasks": tasks, "month_string": month_string,
@@ -89,7 +88,7 @@ def new_calendar(request):
             path = form.instance.path
             month = datetime.now().month
             year = datetime.now().year
-            return redirect(f"/{path}/{year}/{month}")
+            return redirect(f"/{path}/{year}/{month}") # TODO Переделать в джиджу
         else:
             error = 'Problems with this calendar. Try again.'
             context = {"error": error}
@@ -159,10 +158,10 @@ def get_task(request, path, task_id):
         calendar = Calendar.objects.get(path=path)
         task = Task.objects.get(id=task_id, calendar=calendar)
     except ObjectDoesNotExist:
-        return render(request, "Calendar/404.html", {"text": "Something going wrong", "title": "Something going wrong"})
-    obj_task = Task()
+        return render(request,
+                      "Calendar/404.html",
+                      {"text": "Something going wrong", "title": "Something going wrong"})
     date = datetime(task.year, task.month, task.day)
-    # print(date)
     task_day = task.get_day_tasks(date, calendar)
     context = {"task": task,
                "calendar": calendar,

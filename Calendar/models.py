@@ -30,46 +30,31 @@ class Calendar(models.Model):
 class Task(models.Model):
     @staticmethod
     def get_day_tasks(date: datetime.date, calendar: Calendar) -> list:
-        return list(Task.objects.filter(day=date.day, month=date.month, year=date.year, calendar=calendar).order_by(
+        return list(Task.objects.filter(date_time=date, calendar=calendar).order_by(
             "timestamp"))
 
     def save(self, *args, **kwargs):
         if self.timestamp is None:
-            self.timestamp = datetime(year=self.year,
-                                      month=self.month,
-                                      day=self.day,
-                                      hour=self.hour,
-                                      minute=self.minute).timestamp()
+            self.timestamp = self.date_time.timestamp()
         if self.author == "":
             self.author = self.calendar.author
-        if self.year is None:
-            dt = datetime.fromtimestamp(self.timestamp)
-            self.year = dt.year
-            self.month = dt.month
-            self.day = dt.day
-            self.hour = dt.hour
-            self.minute = dt.minute
+        if self.date_time is None:
+            self.date_time = datetime.fromtimestamp(self.timestamp)
         return super().save(*args, **kwargs)
 
     name = models.CharField(max_length=63, name="name", help_text="Название")
     description = models.TextField(max_length=255, name="description", help_text="Описание")
     timestamp = models.IntegerField()
-    # Для более быстрой работы базы данных и удобного вывода помимо таймстампа можно сохранять и месяц день итп.
-    # Количество памяти занимаемой БД не так критично как время загрзи страницы
 
-    year = models.IntegerField()
-    month = models.IntegerField()
-    day = models.IntegerField()
-    hour = models.IntegerField()
-    minute = models.IntegerField()
     calendar = models.ForeignKey(Calendar, on_delete=models.CASCADE)
     creator = models.CharField(max_length=63, name='author', help_text='Автор', default="Anonymous")
+    date_time = models.DateTimeField(name="date_time")
 
     def get_str_date(self):
-        return f"{self.day}-{self.month}-{self.year} {self.hour}:{self.minute}"
+        return str(self.date_time)
 
     def __str__(self):
-        return f"{self.name} {self.description} {self.author} {self.timestamp}"# {self.get_str_date}"
+        return f"{self.name} {self.description} {self.author} {self.timestamp} {self.date_time}"
 
     def __repr__(self):
         return str(self)

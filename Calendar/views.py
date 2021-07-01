@@ -1,37 +1,17 @@
-import django
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.template.defaulttags import url
-from django.views.debug import technical_404_response
 import calendar as calendar_engine
+
+from .calendar_utils import get_nearest_month
+from .cookies_utils import save_last_calendar
 from .forms import NewCalendarForm, AddTaskForm
 from .models import Task, Calendar
 from datetime import datetime
 from django.db.models import ObjectDoesNotExist
 
 
-def save_last_calendar(response: HttpResponse, path):
-    one_year = 365 * 24 * 60 * 60
-    response.set_cookie('last_calendar', path, max_age=one_year)
-
-
 def home(request):
     context = {"title": "Homepage"}
     return render(request, "Calendar/index.html", context)
-
-
-def get_nearest_month(year, month):
-    """Returns tuple of tuples: ((y_prev, m_prev), (y_next, m_next))"""
-    if month == 12:
-        next_ = (year + 1, 1)
-        previous = (year, 11)
-    elif month == 1:
-        next_ = (year, 2)
-        previous = (year - 1, 12)
-    else:
-        next_ = (year, month + 1)
-        previous = (year, month - 1)
-    return previous, next_
 
 
 def show_calendar(request, path, year, month):
@@ -67,7 +47,6 @@ def show_calendar(request, path, year, month):
                "today_task": today_task,
                "current_month": current_month,
                "days": days,
-
                }
     resp = render(request, "Calendar/my_calendar.html", context)
     save_last_calendar(resp, path)

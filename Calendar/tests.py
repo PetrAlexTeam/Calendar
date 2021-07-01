@@ -5,7 +5,7 @@ from django.test import TestCase
 
 from .forms import NewCalendarForm, AddTaskForm
 from .models import Task, Calendar
-from .views import get_nearest_month
+from .calendar_utils import get_nearest_month
 
 
 # Create your tests here.

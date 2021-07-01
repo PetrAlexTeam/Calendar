@@ -10,6 +10,21 @@ rand_100 = partial(randint, 1, 100)
 f = Faker()
 
 
+def create_calendar_if_not_eisit(path, options):
+    if Calendar.objects.filter(path=path).all():
+        if options["verbosity"] >= 2:
+            print(f"Find already exist calendar [path: {path}]")
+        calendar = Calendar.objects.get(path=path)
+    else:
+        if options["verbosity"] >= 2:
+            print(f"Created new calendar [path: {path}]")
+        calendar = Calendar.objects.create(path=path,
+                                           name="Test Calendar",
+                                           description="This calendar created automatically for manual testing",
+                                           author="generator.py")
+    return calendar
+
+
 class Command(BaseCommand):
     help = "Generate test calendar"
 
@@ -17,19 +32,16 @@ class Command(BaseCommand):
         start_date = datetime.strptime(options["start"], "%Y-%m-%dT%H:%M")
         end_date = datetime.strptime(options["end"], "%Y-%m-%dT%H:%M")
         tasks_number = options["tasks_per_day"]
+        day = options["day"]
         prob = options["probability"]
         path = options["path"]
-        if Calendar.objects.filter(path=path).all():
-            if options["verbosity"] >= 2:
-                print(f"Find already exist calendar [path: {path}]")
-            calendar = Calendar.objects.get(path=path)
-        else:
-            if options["verbosity"] >= 2:
-                print(f"Created new calendar [path: {path}]")
-            calendar = Calendar.objects.create(path=path,
-                                               name="Test Calendar",
-                                               description="This calendar created automatically for manual testing",
-                                               author="generator.py")
+
+        if day:
+            end_date = start_date
+            prob = 0
+
+        calendar = create_calendar_if_not_eisit(path, options)
+
         if not options["add"]:
             old_tasks = Task.objects.filter(calendar=calendar).all()
             if options["verbosity"] >= 2:
@@ -41,16 +53,18 @@ class Command(BaseCommand):
         show_pbar = 1 <= options["verbosity"] <= 2
         if show_pbar:
             pbar = tqdm(total=end_date.timestamp() - start_date.timestamp())
-        while date < end_date:
+        while date <= end_date:
             number_tasks = generate_day_task_num(tasks_number, prob)
             for i in range(number_tasks):
+                date.replace(hour=randint(0, 23))
                 create_random_task(date_time=date, calendar=calendar)
                 if options["verbosity"] == 3:
                     print(f"Creating task at {date}")
                 tasks_counter += 1
-            delta = timedelta(days=1, hours=randint(0, 3))
+            delta = timedelta(days=1)
             if show_pbar:
                 pbar.update(delta.total_seconds())
+            date.replace(hour=0)
             date += delta
         if show_pbar:
             pbar.close()
@@ -84,6 +98,10 @@ class Command(BaseCommand):
                             action="store_true",
                             help="If this is selected, the tasks will be added to those already existing in the "
                                  "calendar, otherwise the calendar will be recreated")
+        parser.add_argument("-d",
+                            "--day",
+                            action="store_true",
+                            help="Add tasks_per_day task to start_day")
 
 
 def generate_day_task_num(number=3, prob=0.4):

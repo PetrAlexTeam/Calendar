@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import datetime, timezone, date
 
 from django.conf.urls import url
 from django.test import TestCase
@@ -20,7 +20,7 @@ class ModelsTests(TestCase):
         self.assertIn(self.cal, cals)
 
     def test_easy_task_date(self):
-        tasks_15_jan = Task.get_day_tasks(date=datetime(day=15, month=1, year=2021), calendar=self.cal)
+        tasks_15_jan = Task.get_day_tasks(date=date(day=15, month=1, year=2021), calendar=self.cal)
         self.assertIn(self.e_task, tasks_15_jan)
 
 

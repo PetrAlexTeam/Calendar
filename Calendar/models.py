@@ -2,7 +2,7 @@ from django.contrib.sessions.backends import db
 from django.db import models
 from random import randint
 from datetime import datetime
-
+import datetime as dt
 
 class Calendar(models.Model):
     @staticmethod
@@ -29,8 +29,15 @@ class Calendar(models.Model):
 
 class Task(models.Model):
     @staticmethod
-    def get_day_tasks(date: datetime.date, calendar: Calendar) -> list:
-        return list(Task.objects.filter(date_time=date, calendar=calendar).order_by(
+    def get_day_tasks(date, calendar: Calendar) -> list:
+        """Returns list of task by day
+        :param date datetime.date object
+        :param calendar models.Calendar object in which we trying to find tasks
+        :returns list[models.Task]
+        """
+        if type(date) != dt.date:
+            date = date.date()
+        return list(Task.objects.filter(date_time__date=date, calendar=calendar).order_by(
             "timestamp"))
 
     def save(self, *args, **kwargs):

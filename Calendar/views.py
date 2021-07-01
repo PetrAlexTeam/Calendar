@@ -136,8 +136,7 @@ def get_task(request, path, task_id):
         return render(request,
                       "Calendar/404.html",
                       {"text": "Something going wrong", "title": "Something going wrong"})
-    date = datetime(task.year, task.month, task.day)
-    task_day = task.get_day_tasks(date, calendar)
+    task_day = task.get_day_tasks(task.date_time.date(), calendar) # TODO Переименовать в day_tasks, в том числе в шаблонизватор
     context = {"task": task,
                "calendar": calendar,
                "task_day": task_day}

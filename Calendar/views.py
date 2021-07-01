@@ -46,18 +46,17 @@ def show_calendar(request, path, year, month):
     for weak in c.monthdatescalendar(year, month):
         week = []
         for date in weak:
-            task = Task()
             data_els = date.ctime().split()
             str_date = data_els[1] + ' ' + data_els[2] + ', ' + data_els[4]
             week.append(str_date)
             days[str_date] = data_els[2]  # Save day number only
-            tasks[str_date] = task.get_day_tasks(date, calendar)
+            tasks[str_date] = Task.get_day_tasks(date, calendar)
         month_string.append(week)
 
     previous, next_ = get_nearest_month(year, month)
     previous_link = f"/{path}/{previous[0]}/{previous[1]}"
     next_link = f"/{path}/{next_[0]}/{next_[1]}"
-    
+
     today_task = Task.get_day_tasks(datetime.now(), calendar)
     current_month = datetime.strptime(str(month), "%m").strftime("%b")
     context = {"month": c.monthdatescalendar(year, month),
@@ -66,7 +65,7 @@ def show_calendar(request, path, year, month):
                "previous_link": previous_link,
                "calendar": calendar,
                "today_task": today_task,
-               "current_month":current_month,
+               "current_month": current_month,
                "days": days,
 
                }
@@ -88,7 +87,7 @@ def new_calendar(request):
             path = form.instance.path
             month = datetime.now().month
             year = datetime.now().year
-            return redirect(f"/{path}/{year}/{month}") # TODO Переделать в джиджу
+            return redirect(f"/{path}/{year}/{month}")  # TODO Переделать в джиджу
         else:
             error = 'Problems with this calendar. Try again.'
             context = {"error": error}
@@ -97,16 +96,13 @@ def new_calendar(request):
 
 def add_task(request, path):
     if request.method == 'POST':
-        print("Get post")
         try:
             my_calendar = Calendar.objects.get(path=path)
         except Calendar.DoesNotExist:
-            print(404)
             return render(request, "Calendar/404.html",
                           {"text": "calendar not found", "title": "Calendar is not found"})
         form = AddTaskForm(request.POST)
         if form.is_valid():
-            print("save is coming")
             form.save(calendar=my_calendar)
             return redirect(f"/{my_calendar.path}")
         else:

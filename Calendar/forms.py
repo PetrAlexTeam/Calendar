@@ -22,19 +22,19 @@ class AddTaskForm(forms.Form):
 
     def save(self, calendar):
         task = Task()
-        user_data = datetime.datetime.strptime(self.cleaned_data['date'], "%Y-%m-%dT%H:%M")
-        task.date = user_data
+        user_date = datetime.datetime.strptime(self.cleaned_data['date'], "%Y-%m-%dT%H:%M")
+        task.date = user_date
         task.name = self.cleaned_data['name']
         task.description = self.cleaned_data['description']
         try:
             task.author = self.cleaned_data['author']
         except KeyError:
             task.author = ""
-        task.timestamp = user_data.replace(tzinfo=datetime.timezone.utc).timestamp()
-        task.year = user_data.year
-        task.month = user_data.month
-        task.day = user_data.day
+        task.timestamp = user_date.replace(tzinfo=datetime.timezone.utc).timestamp()
+        task.year = user_date.year
+        task.month = user_date.month
+        task.day = user_date.day
         task.calendar = calendar
-        task.hour = user_data.hour
-        task.minute = user_data.minute
+        task.hour = user_date.hour
+        task.minute = user_date.minute
         task.save()

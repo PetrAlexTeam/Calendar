@@ -136,9 +136,5 @@ def create_random_task(calendar: Calendar, date_time: datetime = None, title=Non
                             description=description,
                             author=author,
                             calendar=calendar,
-                            year=date_time.year,
-                            month=date_time.month,
-                            day=date_time.day,
-                            hour=date_time.hour,
-                            minute=date_time.minute)
+                            date_time=date_time)
     return t

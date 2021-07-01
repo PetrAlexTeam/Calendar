@@ -1,7 +1,7 @@
 import calendar as calendar_engine
 from datetime import datetime
 
-from models import Calendar, Task
+from .models import Calendar, Task
 from collections import namedtuple
 
 Calendar_data = namedtuple("Calendar_data", "month_string_weeks tasks days")

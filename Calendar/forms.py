@@ -30,7 +30,7 @@ class AddTaskForm(forms.Form):
             task.author = self.cleaned_data['author']
         except KeyError:
             task.author = ""
-        task.timestamp = user_date.replace(tzinfo=datetime.timezone.utc).timestamp()
+        task.timestamp = user_date.timestamp()
         task.year = user_date.year
         task.month = user_date.month
         task.day = user_date.day

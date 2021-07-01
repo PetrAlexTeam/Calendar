@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime, timezone
 
 from django.conf.urls import url
 from django.test import TestCase
@@ -7,8 +7,6 @@ from .forms import NewCalendarForm, AddTaskForm
 from .models import Task, Calendar
 from .calendar_utils import get_nearest_month
 
-
-# Create your tests here.
 
 class ModelsTests(TestCase):
     def setUp(self):
@@ -22,7 +20,7 @@ class ModelsTests(TestCase):
         self.assertIn(self.cal, cals)
 
     def test_easy_task_date(self):
-        tasks_15_jan = Task.get_day_tasks(date=datetime.date(day=15, month=1, year=2021), calendar=self.cal)
+        tasks_15_jan = Task.get_day_tasks(date=datetime(day=15, month=1, year=2021), calendar=self.cal)
         self.assertIn(self.e_task, tasks_15_jan)
 
 
@@ -57,8 +55,8 @@ class NewTaskFormTest(TestCase):
         form.save(self.cal)
         self.assertEqual(len(Task.objects.filter(name=form_data["name"], calendar=self.cal).all()), 1)
         self.assertEqual(Task.objects.get(name=form_data["name"], calendar=self.cal).author, form_data["author"])
-        self.assertEqual(Task.objects.get(name=form_data["name"], calendar=self.cal).year, 2020)
-        self.assertEqual(Task.objects.get(name=form_data["name"], calendar=self.cal).hour, 15)
+        self.assertEqual(Task.objects.get(name=form_data["name"], calendar=self.cal).date_time,
+                         datetime.strptime(form_data["date"], "%Y-%m-%dT%H:%M").replace(tzinfo=timezone.utc))
 
     def test_create_task_with_wrong_date(self):
         form_data = {"name": "AutoTestCal12331",

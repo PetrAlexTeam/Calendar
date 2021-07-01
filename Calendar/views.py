@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 import calendar as calendar_engine
 
 from .calendar_utils import get_nearest_month
@@ -15,10 +15,7 @@ def home(request):
 
 
 def show_calendar(request, path, year, month):
-    try:
-        calendar = Calendar.objects.get(path=path)
-    except Calendar.DoesNotExist:
-        return render(request, "Calendar/404.html", {"text": "calendar not found", "title": "Calendar is not found"})
+    calendar = get_object_or_404(Calendar, path=path)
     c = calendar_engine.Calendar()
     tasks = {}
     days = {}
@@ -75,36 +72,25 @@ def new_calendar(request):
 
 def add_task(request, path):
     if request.method == 'POST':
-        try:
-            my_calendar = Calendar.objects.get(path=path)
-        except Calendar.DoesNotExist:
-            return render(request, "Calendar/404.html",
-                          {"text": "calendar not found", "title": "Calendar is not found"})
+        calendar = get_object_or_404(Calendar, path=path)
         form = AddTaskForm(request.POST)
         if form.is_valid():
-            form.save(calendar=my_calendar)
-            return redirect(f"/{my_calendar.path}")
+            form.save(calendar=calendar)
+            return redirect(f"/{calendar.path}")
         else:
             error = 'Problems with this task. Try again.'
             context = {"error": error}
             return render(request, 'Calendar/add.html', context)
 
     elif request.method == 'GET':
-        try:
-            my_calendar = Calendar.objects.get(path=path)
-        except Calendar.DoesNotExist:
-            return render(request, "Calendar/404.html",
-                          {"text": "calendar not found", "title": "Calendar is not found"})
+        calendar = get_object_or_404(Calendar, path=path)
         form = AddTaskForm()
-        return render(request, "Calendar/add.html", {"form": form, "calendar": my_calendar})
+        return render(request, "Calendar/add.html", {"form": form, "calendar": calendar})
 
 
 def get_calendar(request, path):
     """Получение инфо об календаре"""
-    try:
-        calendar = Calendar.objects.get(path=path)
-    except Calendar.DoesNotExist:
-        return render(request, "Calendar/404.html", {"text": "calendar not found", "title": "Calendar is not found"})
+    calendar = get_object_or_404(Calendar, path=path)
     tasks = Task.objects.filter(calendar=calendar).order_by("timestamp")
     return render(request, "Calendar/tasks.html", {"tasks": tasks, "calendar": calendar})
 
@@ -129,13 +115,8 @@ def last(request):
 
 def get_task(request, path, task_id):
     """Open task [ID: task_id] page"""
-    try:
-        calendar = Calendar.objects.get(path=path)
-        task = Task.objects.get(id=task_id, calendar=calendar)
-    except ObjectDoesNotExist:
-        return render(request,
-                      "Calendar/404.html",
-                      {"text": "Something going wrong", "title": "Something going wrong"})
+    calendar = get_object_or_404(Calendar, path=path)
+    task = get_object_or_404(Task, id=task_id, calendar=calendar)
     task_day = task.get_day_tasks(task.date_time.date(), calendar) # TODO Переименовать в day_tasks, в том числе в шаблонизватор
     context = {"task": task,
                "calendar": calendar,

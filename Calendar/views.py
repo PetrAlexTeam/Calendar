@@ -1,13 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
-import calendar as calendar_engine
-
-from .calendar_utils import get_nearest_month
+from .calendar_utils import get_nearest_month, generate_calendar_data, get_month_name
 from .cookies_utils import save_last_calendar
 from .forms import NewCalendarForm, AddTaskForm
 from .models import Task, Calendar
 from datetime import datetime
-from django.db.models import ObjectDoesNotExist
-
+import calendar as calendar_engine
 
 def home(request):
     context = {"title": "Homepage"}
@@ -15,29 +12,23 @@ def home(request):
 
 
 def show_calendar(request, path, year, month):
-    calendar = get_object_or_404(Calendar, path=path)
     c = calendar_engine.Calendar()
-    tasks = {}
-    days = {}
-    month_string = []
-    for weak in c.monthdatescalendar(year, month):
-        week = []
-        for date in weak:
-            data_els = date.ctime().split()
-            str_date = data_els[1] + ' ' + data_els[2] + ', ' + data_els[4]
-            week.append(str_date)
-            days[str_date] = data_els[2]  # Save day number only
-            tasks[str_date] = Task.get_day_tasks(date, calendar)
-        month_string.append(week)
+
+    calendar = get_object_or_404(Calendar, path=path)
+
+    calendar_data = generate_calendar_data(month, year, calendar)
+    tasks = calendar_data.tasks
+    month_string_weeks = calendar_data.month_string_weeks
+    days = calendar_data.days
 
     previous, next_ = get_nearest_month(year, month)
-    previous_link = f"/{path}/{previous[0]}/{previous[1]}"
+    previous_link = f"/{path}/{previous[0]}/{previous[1]}" # TODO Переделать через urls
     next_link = f"/{path}/{next_[0]}/{next_[1]}"
 
     today_task = Task.get_day_tasks(datetime.now(), calendar)
-    current_month = datetime.strptime(str(month), "%m").strftime("%b")
+    current_month = get_month_name(month)
     context = {"month": c.monthdatescalendar(year, month),
-               "tasks": tasks, "month_string": month_string,
+               "tasks": tasks, "month_string": month_string_weeks,
                "next_link": next_link,
                "previous_link": previous_link,
                "calendar": calendar,

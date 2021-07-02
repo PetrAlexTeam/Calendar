@@ -27,28 +27,55 @@
                 </li>
             </ul>
             <table>
+                <thead>
+                    <tr>
+                        <th>Monday</th>
+                        <th>Tuesday</th>
+                        <th>Wednesday </th>
+                        <th>Thursday </th>
+                        <th>Friday </th>
+                        <th>Saturday</th>
+                        <th>Sunday </th>
+                    </tr>
+
+                </thead>
                 {% for weak in month_string  %}
-                   <tr>
-                       {% for date in weak %}
-                            <th>
-                                {% for date_key, day_num in days.items %}
-                                    {% if date == date_key %}
-                                        {{ day_num }}
-                                    {% endif %}
-                                {% endfor %}
-                            </th>
-                        {% endfor %}
-                   </tr>
+<!--                   <tr>-->
+<!--                       {% for date in weak %}-->
+<!--                            <th>-->
+<!--                                {% for date_key, day_num in days.items %}-->
+<!--                                    {% if date == date_key %}-->
+<!--                                        {{ day_num }}-->
+<!--                                    {% endif %}-->
+<!--                                {% endfor %}-->
+<!--                            </th>-->
+<!--                        {% endfor %}-->
+<!--                   </tr>-->
 
 
                     <tr>
                         {% for date in weak %}
                         <td id="tasks">
+
+
+                                    {% for date_key, day_num in days.items %}
+                                        {% if date == date_key %}
+                                            <h5>{{ day_num }}</h5>
+                                        {% endif %}
+                                    {% endfor %}
+
+
+
                             <ul>
                                 {% for day_dict, day_tasks in tasks.items %}
                                 {% if day_dict == date %}
                                     {% for task in day_tasks %}
-                                        <li><a href=" {% url 'task' calendar.path task.id %}">{{ task.name }}</a></li>
+                                        {% if  forloop.counter  < 4%}
+                                            <li><a href=" {% url 'task' calendar.path task.id %}">{{ task.name }}</a></li>
+                                        {% endif %}
+                                        {% if  forloop.counter  == 4%}
+                                            <li><a class="etc" href="{% url 'task' calendar.path task.id %}">etc...</a></li>
+                                        {% endif %}
                                     {% endfor %}
                                 {% endif %}
                             {% endfor %}
@@ -64,16 +91,24 @@
             <h2>
                 Today Task
             </h2>
-            <ul>
-                {% for task in today_task %}
-                    <li>
-                        <h3>{{ task.name }}</h3>
-                        <p>
-                            {{ task.description }}
-                        </p>
-                    </li>
-                {% endfor %}
-            </ul>
+
+            {% for task in today_task %}
+                 {% if  forloop.counter  < 4%}
+                    <ul>
+                        <li>
+                            <h3>{{ task.name }}</h3>
+                            <p>
+                                {{ task.description }}
+                            </p>
+                        </li>
+                    </ul>
+
+                 {% endif %}
+                 {% if  forloop.counter  == 4%}
+                    <a class="today etc" href="{% url 'task' calendar.path task.id %}">etc...</a>
+                 {% endif %}
+            {% endfor %}
+
             <div>
                 <button onclick="location.href = '/{{ calendar.path }}/add'">Create Task</button>
             </div>

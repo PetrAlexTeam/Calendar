@@ -72,6 +72,7 @@
                                     {% for task in day_tasks %}
                                         {% if  forloop.counter  < 4%}
                                             <li><a href=" {% url 'task' calendar.path task.id %}">{{ task.name }}</a></li>
+
                                         {% endif %}
                                         {% if  forloop.counter  == 4%}
                                             <li><a class="etc" href="{% url 'task' calendar.path task.id %}">etc...</a></li>

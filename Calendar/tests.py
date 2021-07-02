@@ -56,7 +56,7 @@ class NewTaskFormTest(TestCase):
         self.assertEqual(len(Task.objects.filter(name=form_data["name"], calendar=self.cal).all()), 1)
         self.assertEqual(Task.objects.get(name=form_data["name"], calendar=self.cal).author, form_data["author"])
         self.assertEqual(Task.objects.get(name=form_data["name"], calendar=self.cal).date_time,
-                         datetime.strptime(form_data["date"], "%Y-%m-%dT%H:%M").replace(tzinfo=timezone.utc))
+                         datetime.strptime(form_data["date"], "%Y-%m-%dT%H:%M"))
 
     def test_create_task_with_wrong_date(self):
         form_data = {"name": "AutoTestCal12331",

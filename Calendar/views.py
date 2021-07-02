@@ -6,6 +6,7 @@ from .models import Task, Calendar
 from datetime import datetime
 import calendar as calendar_engine
 
+
 def home(request):
     context = {"title": "Homepage"}
     return render(request, "Calendar/index.html", context)
@@ -69,8 +70,8 @@ def add_task(request, path):
         calendar = get_object_or_404(Calendar, path=path)
         form = AddTaskForm(request.POST)
         if form.is_valid():
-            form.save(calendar=calendar)
-            return redirect(f"/{calendar.path}") # TODO
+            form.save(calendar=calendar, timezone=None)
+            return redirect(f"/{calendar.path}")  # TODO переделать в шаблонизаторе
         else:
             error = 'Problems with this task. Try again.'
             context = {"error": error}
@@ -111,7 +112,7 @@ def get_task(request, path, task_id):
     """Open task [ID: task_id] page"""
     calendar = get_object_or_404(Calendar, path=path)
     task = get_object_or_404(Task, id=task_id, calendar=calendar)
-    task_day = task.get_day_tasks(task.date_time.date(), calendar) # TODO Переименовать в day_tasks, в том числе в шаблонизватор
+    task_day = task.get_day_tasks(task.date_time.date(), calendar)  # TODO Переименовать в day_tasks, в том числе в шаблонизватор
     context = {"task": task,
                "calendar": calendar,
                "task_day": task_day}

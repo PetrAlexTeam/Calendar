@@ -15,13 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls import url
 
 urlpatterns = [
     path('admin', admin.site.urls),
     path('admin/', admin.site.urls),
     path('', include('Calendar.urls')),
-    #path('new', include('Calendar.urls')),
-    path('<str:path>', include('Calendar.urls'))
-    # path('<str:path>/add', include('Calendar.urls')),
-    # path('new', include('Calendar.urls'))
+    path('<str:path>', include('Calendar.urls')),
+    url(r'^tz_detect/', include('tz_detect.urls'))
 ]

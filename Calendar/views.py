@@ -26,7 +26,9 @@ def show_calendar(request, path, year, month):
     next_link = f"/{path}/{next_[0]}/{next_[1]}"
 
     today_task = Task.get_day_tasks(datetime.now(), calendar)
-    current_month = get_month_name(month)
+    decoding_month = {'Jan': 'January', 'Feb': 'February', 'Mar': 'March', 'Apr': 'April', 'May': 'May', 'Jun': 'June',
+                      'Jul': 'July', 'Aug': 'August', 'Sep': 'September', 'Oct': 'October', 'Nov': 'November', 'Dec': 'December'}
+    current_month = decoding_month[get_month_name(month)]
     context = {"month": c.monthdatescalendar(year, month),
                "tasks": tasks, "month_string": month_string_weeks,
                "next_link": next_link,
@@ -35,6 +37,7 @@ def show_calendar(request, path, year, month):
                "today_task": today_task,
                "current_month": current_month,
                "days": days,
+
                }
     resp = render(request, "Calendar/my_calendar.html", context)
     save_last_calendar(resp, path)

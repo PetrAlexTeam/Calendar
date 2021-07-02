@@ -25,6 +25,7 @@ div.all{
         }
         h2, h3{
             font-weight: lighter;
+            white-space: pre-line;
         }
         p{
             white-space: pre-line;

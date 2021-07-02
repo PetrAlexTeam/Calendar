@@ -13,7 +13,7 @@ div.all{
     padding: 0;
 
 }
-    div.today_task {
+    div.today_tasks {
         display: inline-block;
         float: right;
         width: 20%;

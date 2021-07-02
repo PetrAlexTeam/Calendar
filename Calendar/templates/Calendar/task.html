@@ -10,9 +10,9 @@
     <div class="parent">
         <div class="child Task">
 
-            <h1>Task {{ task.name }}</h1>
-            <p>Description: {{task.description}}</p>
-            <p>Author: {{task.author}}</p>
+            <h1> {{ task.name }}</h1>
+            <p> {{task.description}}</p>
+            <p>Author: <i>{{task.author}}</i></p>
             <div>
                 <a href="/{{ calendar.path }}"><button>Back</button></a>
             </div>

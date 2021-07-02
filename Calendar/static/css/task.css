@@ -1,6 +1,9 @@
 html{
    overflow-y: hidden;
-   overflow-x: auto;
+   overflow-x: hidden;
+}
+body{
+
 }
 div.parent{
     height: 1000px;
@@ -14,15 +17,24 @@ div.parent{
         float: left;
         margin-top: 2%;
     }
+        .day_tasks a{
+            border: 2px solid #A2B1D4;
+            font-size: 30px;
+            display: block;
+            text-decoration: none;
+            color: #0C1829;
+        }
+        .day_tasks a:hover{
+            color:#2E34F3;
+        }
     div.Task{
         float: right;
     }
-h1{
-    font-weight: lighter;
-}
-.day_tasks a{
-    border: 2px solid #A2B1D4;
-    font-size: 30px;
-    display: block;
-    text-decoration: none;
-}
+        h1{
+            font-weight: lighter;
+            font-size: 35px;
+        }
+        p{
+            white-space: pre-line;
+            font-size: 20px;
+        }

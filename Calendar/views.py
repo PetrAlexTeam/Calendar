@@ -25,7 +25,7 @@ def show_calendar(request, path, year, month):
     previous_link = f"/{path}/{previous[0]}/{previous[1]}" # TODO Переделать через urls
     next_link = f"/{path}/{next_[0]}/{next_[1]}"
 
-    today_task = Task.get_day_tasks(datetime.now(), calendar)
+    today_tasks = Task.get_day_tasks(datetime.now(), calendar)
     decoding_month = {'Jan': 'January', 'Feb': 'February', 'Mar': 'March', 'Apr': 'April', 'May': 'May', 'Jun': 'June',
                       'Jul': 'July', 'Aug': 'August', 'Sep': 'September', 'Oct': 'October', 'Nov': 'November', 'Dec': 'December'}
     current_month = decoding_month[get_month_name(month)]
@@ -34,7 +34,7 @@ def show_calendar(request, path, year, month):
                "next_link": next_link,
                "previous_link": previous_link,
                "calendar": calendar,
-               "today_task": today_task,
+               "today_tasks": today_tasks,
                "current_month": current_month,
                "days": days,
 

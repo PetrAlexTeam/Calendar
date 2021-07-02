@@ -5,12 +5,12 @@ from tqdm import tqdm
 from faker import Faker
 from django.core.management.base import BaseCommand
 from Calendar.models import Calendar, Task
-
+from django.db import transaction
 rand_100 = partial(randint, 1, 100)
 f = Faker()
 
 
-def create_calendar_if_not_eisit(path, options):
+def create_calendar_if_not_exist(path, options):
     if Calendar.objects.filter(path=path).all():
         if options["verbosity"] >= 2:
             print(f"Find already exist calendar [path: {path}]")
@@ -40,7 +40,7 @@ class Command(BaseCommand):
             end_date = start_date
             prob = 0
 
-        calendar = create_calendar_if_not_eisit(path, options)
+        calendar = create_calendar_if_not_exist(path, options)
 
         if not options["add"]:
             old_tasks = Task.objects.filter(calendar=calendar).all()
@@ -53,19 +53,20 @@ class Command(BaseCommand):
         show_pbar = 1 <= options["verbosity"] <= 2
         if show_pbar:
             pbar = tqdm(total=end_date.timestamp() - start_date.timestamp())
-        while date <= end_date:
-            number_tasks = generate_day_task_num(tasks_number, prob)
-            for i in range(number_tasks):
-                date.replace(hour=randint(0, 23))
-                create_random_task(date_time=date, calendar=calendar)
-                if options["verbosity"] == 3:
-                    print(f"Creating task at {date}")
-                tasks_counter += 1
-            delta = timedelta(days=1)
-            if show_pbar:
-                pbar.update(delta.total_seconds())
-            date.replace(hour=0)
-            date += delta
+        with transaction.atomic():
+            while date <= end_date:
+                number_tasks = generate_day_task_num(tasks_number, prob)
+                for i in range(number_tasks):
+                    date.replace(hour=randint(0, 23))
+                    create_random_task(date_time=date, calendar=calendar)
+                    if options["verbosity"] == 3:
+                        print(f"Creating task at {date}")
+                    tasks_counter += 1
+                delta = timedelta(days=1)
+                if show_pbar:
+                    pbar.update(delta.total_seconds())
+                date.replace(hour=0)
+                date += delta
         if show_pbar:
             pbar.close()
         if options["verbosity"] == 0:

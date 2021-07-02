@@ -67,7 +67,7 @@ def add_task(request, path):
         form = AddTaskForm(request.POST)
         if form.is_valid():
             form.save(calendar=calendar)
-            return redirect(f"/{calendar.path}")
+            return redirect(f"/{calendar.path}") # TODO
         else:
             error = 'Problems with this task. Try again.'
             context = {"error": error}

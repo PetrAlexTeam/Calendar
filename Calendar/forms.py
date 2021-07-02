@@ -20,7 +20,7 @@ class AddTaskForm(forms.Form):
     author = forms.CharField(label='Creator', max_length=63)
     date = forms.CharField(widget=forms.TextInput(attrs={"type": "datetime-local"}))
 
-    def save(self, calendar, timezone):
+    def save(self, calendar, timezone=None):
         task = Task()
         user_date = datetime.datetime.strptime(self.cleaned_data['date'], "%Y-%m-%dT%H:%M")
         user_date.replace(tzinfo=timezone)

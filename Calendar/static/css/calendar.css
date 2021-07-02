@@ -1,5 +1,5 @@
 html{
-    overflow-x: scroll;
+    overflow-x: auto;
     overflow-y: auto;
 }
 body {
@@ -48,9 +48,11 @@ table{
     }
     td{
         border: 1px solid #AFB4D4;
-
+        background-color: #C7D8EC;
         with: 14vw;
         height: 100px;
+        position: relative;
+
     }
     td ul{
         margin-left: 0px;
@@ -66,20 +68,31 @@ table{
         text-decoration: none;
         font-size:15px;
         font-family:Gill Sans, sans-serif;
-        color:#1E94D4;
+        color: #0C1829;
         font-weight: lighter;
         text-align: left;
         white-space: pre-line;
     }
-    .etc{
+    td h5{
+        position: absolute;
+        top:0.2%;
+        /*margin-left: 50%;
+        margin-right: 50%;*/
+        text-align: center;
+        margin: 0 50% 0 50%;
+    }
+    .etc a{
         color: #000000;
         text-decoration: none;
+    }
+    .etc a:hover{
+
     }
     .today{
         margin-left: 40px;
     }
-    a:hover{
-        color:#D49BA5;
+    td a:hover{
+        color:#F3F3F3;
     }
 
 

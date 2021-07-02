@@ -27,23 +27,45 @@
                 </li>
             </ul>
             <table>
+                <thead>
+                    <tr>
+                        <th>Monday</th>
+                        <th>Tuesday</th>
+                        <th>Wednesday </th>
+                        <th>Thursday </th>
+                        <th>Friday </th>
+                        <th>Saturday</th>
+                        <th>Sunday </th>
+                    </tr>
+
+                </thead>
                 {% for weak in month_string  %}
-                   <tr>
-                       {% for date in weak %}
-                            <th>
-                                {% for date_key, day_num in days.items %}
-                                    {% if date == date_key %}
-                                        {{ day_num }}
-                                    {% endif %}
-                                {% endfor %}
-                            </th>
-                        {% endfor %}
-                   </tr>
+<!--                   <tr>-->
+<!--                       {% for date in weak %}-->
+<!--                            <th>-->
+<!--                                {% for date_key, day_num in days.items %}-->
+<!--                                    {% if date == date_key %}-->
+<!--                                        {{ day_num }}-->
+<!--                                    {% endif %}-->
+<!--                                {% endfor %}-->
+<!--                            </th>-->
+<!--                        {% endfor %}-->
+<!--                   </tr>-->
 
 
                     <tr>
                         {% for date in weak %}
                         <td id="tasks">
+
+
+                                    {% for date_key, day_num in days.items %}
+                                        {% if date == date_key %}
+                                            <h5>{{ day_num }}</h5>
+                                        {% endif %}
+                                    {% endfor %}
+
+
+
                             <ul>
                                 {% for day_dict, day_tasks in tasks.items %}
                                 {% if day_dict == date %}

@@ -16,6 +16,7 @@ div.parent{
     div.day_tasks{
         float: left;
         margin-top: 2%;
+        margin-left: 2%;
     }
         .day_tasks a{
             border: 2px solid #A2B1D4;

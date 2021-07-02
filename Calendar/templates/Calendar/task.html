@@ -20,7 +20,14 @@
         <div class="child day_tasks">
             <div class="#">
                 {% for day_task in task_day %}
-                    <a href="{{ day_task.id }}">{{ day_task.name }}</a>
+                    <div>
+<!--                        <span>-->
+<!--                            {{ day_task.date_time.hour }} : {{ day_task.date_time.minute }}-->
+<!--                        </span>-->
+
+                        <a href="{{ day_task.id }}">{{ day_task.name }}</a>
+                    </div>
+
                     <br>
 
                 {% endfor %}

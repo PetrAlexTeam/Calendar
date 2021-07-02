@@ -4,6 +4,7 @@ from random import randint
 from datetime import datetime
 import datetime as dt
 
+
 class Calendar(models.Model):
     @staticmethod
     def generate_path() -> str:
@@ -16,7 +17,7 @@ class Calendar(models.Model):
 
     name = models.CharField(max_length=63, name="name", help_text="Название")
     description = models.TextField(max_length=255, name="description", help_text="Описание")
-    creator = models.CharField(max_length=63, name='author', help_text='Автор')
+    author = models.CharField(max_length=63, name='author', help_text='Автор')
     path = models.CharField(max_length=63, name='path', help_text='Путь по которому получают этот календарь',
                             unique=True)
 
@@ -54,7 +55,7 @@ class Task(models.Model):
     timestamp = models.IntegerField()
 
     calendar = models.ForeignKey(Calendar, on_delete=models.CASCADE)
-    creator = models.CharField(max_length=63, name='author', help_text='Автор', default="Anonymous")
+    author = models.CharField(max_length=63, name='author', help_text='Автор', default="Anonymous")
     date_time = models.DateTimeField(name="date_time")
 
     def get_str_date(self):

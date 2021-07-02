@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls import url
 from . import views
 
 urlpatterns = [
@@ -12,5 +13,6 @@ urlpatterns = [
     path('<str:path>/tasks', views.get_calendar, name="calendar_tasks"),
     path('<str:path>/add', views.add_task, name="add_task"),
     path('<str:path>/<int:year>/<int:month>', views.show_calendar, name="month_calendar"),
-    path('<str:path>', views.current_month_calendar, name="current_month_calendar")
+    path('<str:path>', views.current_month_calendar, name="current_month_calendar"),
+    url(r'^tz_detect/', include('tz_detect.urls'))
 ]

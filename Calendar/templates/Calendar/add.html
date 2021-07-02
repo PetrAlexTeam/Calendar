@@ -1,7 +1,7 @@
 {% extends "Calendar/base.html" %}
 
-{#{% load widget_tweaks %}#}
-{#{{form.datetime_string|attr:"type:date"}}#}
+{% load tz_detect %}
+{% tz_detect %}
 
 {%  block body %}
     <h2>Add task to calendar {{ calendar.name }}</h2>

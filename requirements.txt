@@ -2,9 +2,10 @@ asgiref==3.4.0
 certifi==2021.5.30
 chardet==4.0.0
 Django==3.2.4
+django-nested-inline==0.4.4
+django-tz-detect==0.3.0
 Faker==8.8.2
 idna==2.10
-lxml==4.6.3
 mysqlclient==2.0.3
 python-dateutil==2.8.1
 pytz==2021.1

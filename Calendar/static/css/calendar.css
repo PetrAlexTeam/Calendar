@@ -19,6 +19,9 @@ div.all{
         margin-right: 1%;
         height: 900px;
     }
+        ul{
+            /*list-style-type: none;*/
+        }
         h2, h3{
             font-weight: lighter;
         }
@@ -67,6 +70,13 @@ table{
         font-weight: lighter;
         text-align: left;
         white-space: pre-line;
+    }
+    .etc{
+        color: #000000;
+        text-decoration: none;
+    }
+    .today{
+        margin-left: 40px;
     }
     a:hover{
         color:#D49BA5;

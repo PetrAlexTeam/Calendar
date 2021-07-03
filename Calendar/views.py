@@ -126,6 +126,7 @@ def get_task(request, path, task_id):
     return render(request, "Calendar/task.html", context=context)
 
 
+# API to Update and Edit Tasks
 @csrf_exempt  # We don't need csrf validation in this form now, but # TODO enable csrf protection
 def update_task(request, path: str, task_id: int):
     if request.method == "POST":

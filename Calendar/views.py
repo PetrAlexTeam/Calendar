@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import render, redirect, get_object_or_404
 from .calendar_utils import get_nearest_month, generate_calendar_data, get_month_name
 from .cookies_utils import save_last_calendar
@@ -5,6 +7,9 @@ from .forms import NewCalendarForm, AddTaskForm
 from .models import Task, Calendar
 from datetime import datetime
 import calendar as calendar_engine
+from django.core.exceptions import FieldError
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 
 def home(request):
@@ -23,12 +28,13 @@ def show_calendar(request, path, year, month):
     days = calendar_data.days
 
     previous, next_ = get_nearest_month(year, month)
-    previous_link = f"/{path}/{previous[0]}/{previous[1]}" # TODO Переделать через urls
+    previous_link = f"/{path}/{previous[0]}/{previous[1]}"  # TODO Переделать через urls
     next_link = f"/{path}/{next_[0]}/{next_[1]}"
 
     today_tasks = Task.get_day_tasks(datetime.now(), calendar)
     decoding_month = {'Jan': 'January', 'Feb': 'February', 'Mar': 'March', 'Apr': 'April', 'May': 'May', 'Jun': 'June',
-                      'Jul': 'July', 'Aug': 'August', 'Sep': 'September', 'Oct': 'October', 'Nov': 'November', 'Dec': 'December'}
+                      'Jul': 'July', 'Aug': 'August', 'Sep': 'September', 'Oct': 'October', 'Nov': 'November',
+                      'Dec': 'December'}
     current_month = decoding_month[get_month_name(month)]
     context = {"month": c.monthdatescalendar(year, month),
                "tasks": tasks, "month_string": month_string_weeks,
@@ -112,8 +118,20 @@ def get_task(request, path, task_id):
     """Open task [ID: task_id] page"""
     calendar = get_object_or_404(Calendar, path=path)
     task = get_object_or_404(Task, id=task_id, calendar=calendar)
-    task_day = task.get_day_tasks(task.date_time.date(), calendar)  # TODO Переименовать в day_tasks, в том числе в шаблонизватор
+    task_day = task.get_day_tasks(task.date_time.date(),
+                                  calendar)  # TODO Переименовать в day_tasks, в том числе в шаблонизватор
     context = {"task": task,
                "calendar": calendar,
                "task_day": task_day}
     return render(request, "Calendar/task.html", context=context)
+
+
+@csrf_exempt   #  We don't need csrf validation in this form now, but # TODO enable csrf protection
+def update_task(request, path: str, task_id: int):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            task = Task.update(task_id, path, **data)
+        except FieldError:
+            return JsonResponse({"error": "That calendar has not got such task"})
+        return JsonResponse(task.get_json())

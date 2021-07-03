@@ -3,6 +3,8 @@ from django.db import models
 from random import randint
 from datetime import datetime
 import datetime as dt
+from django.shortcuts import get_object_or_404
+from django.core.exceptions import FieldError
 
 
 class Calendar(models.Model):
@@ -41,6 +43,17 @@ class Task(models.Model):
         return list(Task.objects.filter(date_time__date=date, calendar=calendar).order_by(
             "timestamp"))
 
+    @staticmethod
+    def update(task_id: int, calendar_path: str, **kwargs):
+        cal = get_object_or_404(Calendar, path=calendar_path)
+        task = get_object_or_404(Task, id=task_id)
+        if task.calendar != cal:
+            raise FieldError("Calendar does not contains this task")
+        for field_name, value in kwargs.items():
+            setattr(task, field_name, value)
+        task.save()
+        return task
+
     def save(self, *args, **kwargs):
         if self.timestamp is None:
             self.timestamp = self.date_time.timestamp()
@@ -58,11 +71,15 @@ class Task(models.Model):
     author = models.CharField(max_length=63, name='author', help_text='Автор', default="Anonymous")
     date_time = models.DateTimeField(name="date_time")
 
-    def get_str_date(self):
-        return str(self.date_time)
-
     def __str__(self):
         return f"{self.name} {self.description} {self.author} {self.timestamp} {self.date_time}"
 
     def __repr__(self):
         return str(self)
+
+    def get_json(self):
+        return {"name": self.name,
+                "description": self.description,
+                "datetime": self.date_time,
+                "author": self.author,
+                "calendar_id": self.calendar_id}

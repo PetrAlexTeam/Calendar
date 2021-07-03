@@ -4,6 +4,8 @@ from datetime import datetime
 from .models import Calendar, Task
 from collections import namedtuple
 
+"""Код связаный с логикой работы календаря (как способ счисления дней в году)"""
+
 Calendar_data = namedtuple("Calendar_data", "month_string_weeks tasks days")
 
 

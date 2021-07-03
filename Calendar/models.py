@@ -44,11 +44,15 @@ class Task(models.Model):
             "timestamp"))
 
     @staticmethod
+    def delete_task(task_id: int, calendar_path: str):
+        cal = get_object_or_404(Calendar, path=calendar_path)
+        task = get_object_or_404(Task, id=task_id, calendar=cal)
+        task.delete()  # TODO Каскадное даление для повторяющихся задач
+
+    @staticmethod
     def update(task_id: int, calendar_path: str, **kwargs):
         cal = get_object_or_404(Calendar, path=calendar_path)
-        task = get_object_or_404(Task, id=task_id)
-        if task.calendar != cal:
-            raise FieldError("Calendar does not contains this task")
+        task = get_object_or_404(Task, id=task_id, calendar=cal)
         for field_name, value in kwargs.items():
             setattr(task, field_name, value)
         task.save()
@@ -83,3 +87,4 @@ class Task(models.Model):
                 "datetime": self.date_time,
                 "author": self.author,
                 "calendar_id": self.calendar_id}
+

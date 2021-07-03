@@ -126,12 +126,16 @@ def get_task(request, path, task_id):
     return render(request, "Calendar/task.html", context=context)
 
 
-@csrf_exempt   #  We don't need csrf validation in this form now, but # TODO enable csrf protection
+@csrf_exempt  # We don't need csrf validation in this form now, but # TODO enable csrf protection
 def update_task(request, path: str, task_id: int):
     if request.method == "POST":
-        try:
-            data = json.loads(request.body)
-            task = Task.update(task_id, path, **data)
-        except FieldError:
-            return JsonResponse({"error": "That calendar has not got such task"})
+        data = json.loads(request.body)
+        task = Task.update(task_id, path, **data)
         return JsonResponse(task.get_json())
+
+
+@csrf_exempt  # We don't need csrf validation in this form now, but # TODO enable csrf protection
+def delete_task(request, path: str, task_id: int):
+    if request.method == "POST":
+        Task.delete_task(calendar_path=path, task_id=task_id)
+        return JsonResponse({"OK": "Success"})

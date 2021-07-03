@@ -39,11 +39,7 @@ div.all{
         display: inline-block;
 
     }
-        .month_navigate ul{
-            list-style-type: circle;
-            margin-left: 5px;
 
-        }
     /*Table*/
     table{
         width: 100%;
@@ -62,14 +58,19 @@ div.all{
 
         }
         td ul{
-            margin-left: 0px;
+
             padding-left: 0px;
+            margin-left: 20px;
+            list-style-type: circle;
         }
         td ul li {
-            display: block;
+
+            display:list-item;
             text-align: left;
             padding: 0;
             margin-bottom: 5px;
+            /*background-color: #009FFF;
+            border-radius: 50px/20px;*/
         }
         td a{
             width:100%;

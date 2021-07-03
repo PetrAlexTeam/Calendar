@@ -1,10 +1,11 @@
-from django.contrib.sessions.backends import db
 from django.db import models
 from random import randint
-from datetime import datetime
+from datetime import datetime, timedelta
 import datetime as dt
 from django.shortcuts import get_object_or_404
-from django.core.exceptions import FieldError
+from django.db import transaction
+
+TEN_YEARS = datetime(year=20, month=1, day=1) - datetime(year=10, month=1, day=1)
 
 
 class Calendar(models.Model):
@@ -31,6 +32,30 @@ class Calendar(models.Model):
 
 
 class Task(models.Model):
+    def __init__(self, *args, **kwargs):
+        """Init new Task
+        :param period - timedelta object. How often should task be repeated
+        :param repeated - if true task will be repeated
+        :param end_date - datetime until which tasks will be repeated or it will be repeated for 10 years
+        """
+        if self.id is None:
+            if kwargs.get("repeated"):
+                period = kwargs["period"]
+                end_date = kwargs["end_date"] or kwargs["date_time"] + TEN_YEARS
+                base_task = self
+                date = base_task.date_time + period
+                with transaction.atomic():
+                    while date <= end_date:
+                        base_task.clone_task(date)
+                        date += period
+            try:
+                del kwargs["repeated"]
+                del kwargs["period"]
+                del kwargs["end_date"]
+            except KeyError:
+                pass
+        super().__init__(*args, **kwargs)
+
     @staticmethod
     def get_day_tasks(date, calendar: Calendar) -> list:
         """Returns list of task by day
@@ -58,6 +83,15 @@ class Task(models.Model):
         task.save()
         return task
 
+    def clone_task(self, date_time):
+        """Create Task with the same name, desc, etc but at other dt. It will be inherited to first"""
+        t = Task(name=self.name,
+                 description=self.description,
+                 author=self.author,
+                 date_time=date_time,
+                 inherited=self)
+        return t
+
     def save(self, *args, **kwargs):
         if self.timestamp is None:
             self.timestamp = self.date_time.timestamp()
@@ -72,8 +106,13 @@ class Task(models.Model):
     timestamp = models.IntegerField()
 
     calendar = models.ForeignKey(Calendar, on_delete=models.CASCADE)
-    author = models.CharField(max_length=63, name='author', help_text='Автор', default="Anonymous")
+    author = models.CharField(max_length=63, name='author',
+                              help_text='Автор',
+                              default="Anonymous")
     date_time = models.DateTimeField(name="date_time")
+    inherited = models.ForeignKey("self",
+                                  verbose_name="Базовая задача в случае если это задача - повторяющаяся",
+                                  null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.name} {self.description} {self.author} {self.timestamp} {self.date_time}"
@@ -87,4 +126,3 @@ class Task(models.Model):
                 "datetime": self.date_time,
                 "author": self.author,
                 "calendar_id": self.calendar_id}
-

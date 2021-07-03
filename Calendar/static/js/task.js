@@ -12,9 +12,9 @@
       att.value = "true";
       att2.value = "true";
       att3.value = "true";
-//      h1.setAttributeNode(att);
-//      p[0].setAttributeNode(att2);
-//      p[1].setAttributeNode(att3);
+      h1.setAttributeNode(att);
+      p[0].setAttributeNode(att2);
+      p[1].setAttributeNode(att3);
     }
 
     function noteditable() {

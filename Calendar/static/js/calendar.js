@@ -1,5 +1,7 @@
+
 jQuery('document').ready(function(){
     url = $(location).attr('href');
+
 //    alert("js join");
 
     //$('.today_task a').attr("href", $(location).attr('href'))

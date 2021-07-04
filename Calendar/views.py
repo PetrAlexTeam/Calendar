@@ -131,6 +131,7 @@ def get_task(request, path, task_id):
 def update_task(request, path: str, task_id: int):
     if request.method == "POST":
         data = json.loads(request.body)
+        print(data)
         task = Task.update(task_id, path, **data)
         return JsonResponse(task.get_json())
 

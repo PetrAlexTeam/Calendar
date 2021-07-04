@@ -3,7 +3,7 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/calendar.css' %}" type="text/css">
     <script src="{% static 'js/jquery-3.6.0.min.js' %}" type="text/javascript"></script>
-    <script src="{% static 'js/some_js.js' %}" type="text/javascript"></script>
+    <script src="{% static 'js/calendar.js' %}" type="text/javascript"></script>
 {% endblock %}
 
 {% block body %}
@@ -40,39 +40,20 @@
 
                 </thead>
                 {% for weak in month_string  %}
-<!--                   <tr>-->
-<!--                       {% for date in weak %}-->
-<!--                            <th>-->
-<!--                                {% for date_key, day_num in days.items %}-->
-<!--                                    {% if date == date_key %}-->
-<!--                                        {{ day_num }}-->
-<!--                                    {% endif %}-->
-<!--                                {% endfor %}-->
-<!--                            </th>-->
-<!--                        {% endfor %}-->
-<!--                   </tr>-->
-
-
                     <tr>
                         {% for date in weak %}
                         <td id="tasks">
-
-
                                     {% for date_key, day_num in days.items %}
                                         {% if date == date_key %}
                                             <h5>{{ day_num }}</h5>
                                         {% endif %}
                                     {% endfor %}
-
-
-
                             <ul>
                                 {% for day_dict, day_tasks in tasks.items %}
                                 {% if day_dict == date %}
                                     {% for task in day_tasks %}
                                         {% if  forloop.counter  < 4%}
                                             <li><a href=" {% url 'task' calendar.path task.id %}">{{ task.name }}</a></li>
-
                                         {% endif %}
                                         {% if  forloop.counter  == 4%}
                                             <li><a class="etc" href="{% url 'task' calendar.path task.id %}">etc...</a></li>
@@ -80,7 +61,6 @@
                                     {% endfor %}
                                 {% endif %}
                             {% endfor %}
-
                             </ul>
                         </td>
                         {% endfor %}

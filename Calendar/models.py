@@ -32,17 +32,17 @@ class Calendar(models.Model):
 
 
 class RepeatedTaskManager(models.Manager):
-    def create_repeated_tasks(self, base_task, period, end_date=None):
+    def create_repeated_tasks(self, abstract_task, period, end_date=None):
         """New repeated task
-        :param base_task - abstrac Task
+        :param abstract_task - abstrac Task
         :param period - timedelta object. How often should task be repeated
         :param end_date - datetime until which tasks will be repeated or it will be repeated for 10 years
         """
-        end_date = end_date or base_task.date_time + TEN_YEARS
-        date = base_task.date_time + period
+        end_date = end_date or abstract_task.date_time + TEN_YEARS
+        date = abstract_task.date_time
         with transaction.atomic():
             while date <= end_date:
-                base_task.clone_task(date)
+                abstract_task.clone_task(date)
                 date += period
 
 
@@ -59,10 +59,11 @@ class Task(models.Model):
     inherited = models.ForeignKey("self",
                                   verbose_name="Базовая задача в случае если это задача - повторяющаяся",
                                   null=True, on_delete=models.CASCADE)
-    abstract_task = models.BooleanField(verbose_name="Является ли это абстрактной задачей для какой то повторяющейся",
+    abstract_task = models.BooleanField(verbose_name="Является ли это абстрактной задачей, "
+                                                     "базовой для ряда повторяющихся",
                                         default=False)
     repeated = RepeatedTaskManager()
-
+    objects = models.Manager()
     @staticmethod
     def get_day_tasks(date, calendar: Calendar) -> list:
         """Returns list of task by day

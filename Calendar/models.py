@@ -64,6 +64,7 @@ class Task(models.Model):
                                         default=False)
     repeated = RepeatedTaskManager()
     objects = models.Manager()
+
     @staticmethod
     def get_day_tasks(date, calendar: Calendar) -> list:
         """Returns list of task by day
@@ -101,12 +102,14 @@ class Task(models.Model):
         return t
 
     def save(self, *args, **kwargs):
-        if self.timestamp is None:
-            self.timestamp = self.date_time.timestamp()
+        if not self.abstract_task
+            if self.timestamp is None:
+                self.timestamp = self.date_time.timestamp()
+            if self.date_time is None:
+                self.date_time = datetime.fromtimestamp(self.timestamp)
         if self.author == "":
             self.author = self.calendar.author
-        if self.date_time is None:
-            self.date_time = datetime.fromtimestamp(self.timestamp)
+
         return super().save(*args, **kwargs)
 
     def __str__(self):

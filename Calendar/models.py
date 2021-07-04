@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404
 from django.db import transaction
 
 TEN_YEARS = datetime(year=20, month=1, day=1) - datetime(year=10, month=1, day=1)
-
+YEAR = datetime(year=20, month=1, day=1) - datetime(year=19, month=1, day=1)
 
 class Calendar(models.Model):
     @staticmethod
@@ -32,14 +32,14 @@ class Calendar(models.Model):
 
 
 class RepeatedTaskManager(models.Manager):
-    def create_repeated_tasks(self, abstract_task, period, end_date=None):
+    def create_repeated_tasks(self, abstract_task, period, start_date, end_date=None):
         """New repeated task
         :param abstract_task - abstrac Task
         :param period - timedelta object. How often should task be repeated
         :param end_date - datetime until which tasks will be repeated or it will be repeated for 10 years
         """
-        end_date = end_date or abstract_task.date_time + TEN_YEARS
-        date = abstract_task.date_time
+        end_date = end_date or start_date + YEAR
+        date = start_date
         with transaction.atomic():
             while date <= end_date:
                 abstract_task.clone_task(date)
@@ -98,7 +98,9 @@ class Task(models.Model):
                  description=self.description,
                  author=self.author,
                  date_time=date_time,
+                 calendar=self.calendar,
                  inherited=self)
+        t.save()
         return t
 
     def save(self, *args, **kwargs):

@@ -5,6 +5,56 @@
     <link rel="stylesheet" href="{% static 'css/task.css' %}" type="text/css">
     <script src="{% static 'js/jquery-3.6.0.min.js' %}" type="text/javascript"></script>
     <script src="{% static 'js/task.js' %}" type="text/javascript"></script>
+    <script>
+        function editable() {
+          var h1 = document.getElementsByTagName("H1")[0];
+          var p = document.getElementsByTagName("p");
+    //      console.log(p[0])
+    //      console.log(p[1])
+    //      console.log(h1)
+          var att = document.createAttribute("contenteditable");
+          var att2 = document.createAttribute("contenteditable");
+          var att3 = document.createAttribute("contenteditable");
+          att.value = "true";
+          att2.value = "true";
+          att3.value = "true";
+          h1.setAttributeNode(att);
+          p[0].setAttributeNode(att2);
+          p[1].setAttributeNode(att3);
+        }
+
+        function noteditable() {
+          var h1 = document.getElementsByTagName("H1")[0];
+          var p = document.getElementsByTagName("p");
+          var att = document.createAttribute("contenteditable");
+          var att2 = document.createAttribute("contenteditable");
+          var att3 = document.createAttribute("contenteditable");
+          att.value = "false";
+          att2.value = "false";
+          att3.value = "false";
+          h1.setAttributeNode(att);
+          p[0].setAttributeNode(att2);
+          p[1].setAttributeNode(att3);
+          var description = p[0].innerText
+          var value2 = p[1].innerText
+          var NameTask = h1.innerText
+          console.log(description)
+          console.log(value2)
+          console.log(NameTask)
+           $.ajax({
+             url: '{{task.id}}/update',
+             data: {'name': NameTask, 'description': description},
+             type: 'POST'
+           }).done(function(response){
+             console.log(response);
+             console.log(data);
+           });
+        }
+
+        $('.my-button').click(function() {
+          $(".my-textbox").focus()
+        });
+    </script>
 {% endblock %}
 
 {% block body %}
@@ -16,10 +66,9 @@
             <p class='my-textbox' contenteditable="false">Author: <i>{{task.author}}</i></p>
             <div>
                 <a href="/{{ calendar.path }}"><button>Back</button></a>
-                <button class='my-button' onclick="editable()">Edit  h1</button>
-                <button onclick="noteditable()">OK</button>
+                <button class='my-button' onclick="editable()">Edit</button>
+                <button onclick="noteditable()">Ok</button>
             </div>
-
 
 
         </div>
@@ -41,6 +90,7 @@
 
         </div>
     </div>
+
 
 
 {% endblock %}

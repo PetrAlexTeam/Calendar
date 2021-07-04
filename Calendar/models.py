@@ -31,30 +31,37 @@ class Calendar(models.Model):
         return str(self)
 
 
-class Task(models.Model):
-    def __init__(self, *args, **kwargs):
-        """Init new Task
+class RepeatedTaskManager(models.Manager):
+    def create_repeated_tasks(self, base_task, period, end_date=None):
+        """New repeated task
+        :param base_task - abstrac Task
         :param period - timedelta object. How often should task be repeated
-        :param repeated - if true task will be repeated
         :param end_date - datetime until which tasks will be repeated or it will be repeated for 10 years
         """
-        if self.id is None:
-            if kwargs.get("repeated"):
-                period = kwargs["period"]
-                end_date = kwargs["end_date"] or kwargs["date_time"] + TEN_YEARS
-                base_task = self
-                date = base_task.date_time + period
-                with transaction.atomic():
-                    while date <= end_date:
-                        base_task.clone_task(date)
-                        date += period
-            try:
-                del kwargs["repeated"]
-                del kwargs["period"]
-                del kwargs["end_date"]
-            except KeyError:
-                pass
-        super().__init__(*args, **kwargs)
+        end_date = end_date or base_task.date_time + TEN_YEARS
+        date = base_task.date_time + period
+        with transaction.atomic():
+            while date <= end_date:
+                base_task.clone_task(date)
+                date += period
+
+
+class Task(models.Model):
+    name = models.CharField(max_length=63, name="name", help_text="Название")
+    description = models.TextField(max_length=255, name="description", help_text="Описание", default="No description")
+    timestamp = models.IntegerField(null=True)
+
+    calendar = models.ForeignKey(Calendar, on_delete=models.CASCADE)
+    author = models.CharField(max_length=63, name='author',
+                              help_text='Автор',
+                              default="Anonymous")
+    date_time = models.DateTimeField(name="date_time", null=True)
+    inherited = models.ForeignKey("self",
+                                  verbose_name="Базовая задача в случае если это задача - повторяющаяся",
+                                  null=True, on_delete=models.CASCADE)
+    abstract_task = models.BooleanField(verbose_name="Является ли это абстрактной задачей для какой то повторяющейся",
+                                        default=False)
+    repeated = RepeatedTaskManager()
 
     @staticmethod
     def get_day_tasks(date, calendar: Calendar) -> list:
@@ -84,7 +91,7 @@ class Task(models.Model):
         return task
 
     def clone_task(self, date_time):
-        """Create Task with the same name, desc, etc but at other dt. It will be inherited to first"""
+        """Create Task with the same name, desc, etc but at other dt. It will be inherited to self"""
         t = Task(name=self.name,
                  description=self.description,
                  author=self.author,
@@ -100,19 +107,6 @@ class Task(models.Model):
         if self.date_time is None:
             self.date_time = datetime.fromtimestamp(self.timestamp)
         return super().save(*args, **kwargs)
-
-    name = models.CharField(max_length=63, name="name", help_text="Название")
-    description = models.TextField(max_length=255, name="description", help_text="Описание")
-    timestamp = models.IntegerField()
-
-    calendar = models.ForeignKey(Calendar, on_delete=models.CASCADE)
-    author = models.CharField(max_length=63, name='author',
-                              help_text='Автор',
-                              default="Anonymous")
-    date_time = models.DateTimeField(name="date_time")
-    inherited = models.ForeignKey("self",
-                                  verbose_name="Базовая задача в случае если это задача - повторяющаяся",
-                                  null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.name} {self.description} {self.author} {self.timestamp} {self.date_time}"

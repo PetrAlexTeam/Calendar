@@ -130,7 +130,7 @@ def get_task(request, path, task_id):
 @csrf_exempt  # We don't need csrf validation in this form now, but # TODO enable csrf protection
 def update_task(request, path: str, task_id: int):
     if request.method == "POST":
-        data = json.loads(request.body)
+        data = request.POST
         print(data)
         task = Task.update(task_id, path, **data)
         return JsonResponse(task.get_json())

@@ -53,8 +53,10 @@ class Task(models.Model):
     def update(task_id: int, calendar_path: str, **kwargs):
         cal = get_object_or_404(Calendar, path=calendar_path)
         task = get_object_or_404(Task, id=task_id, calendar=cal)
+        print(kwargs.items())
         for field_name, value in kwargs.items():
-            setattr(task, field_name, value)
+            setattr(task, field_name, value[0])# JS return [string] -> taken [0]
+            print(value)
         task.save()
         return task
 

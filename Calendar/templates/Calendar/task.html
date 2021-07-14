@@ -37,17 +37,18 @@
           p[1].setAttributeNode(att3);
           var description = p[0].innerText
           var value2 = p[1].innerText
-          var NameTask = h1.innerText
-          console.log(description)
+          var name_task = h1.innerHTML
+          console.log("description")
+          console.log("description ---",description, typeof(description))
           console.log(value2)
-          console.log(NameTask)
+          console.log(name_task)
            $.ajax({
              url: '{{task.id}}/update',
-             data: {'name': NameTask, 'description': description},
+             data: {'name': name_task, 'description': description},
              type: 'POST'
            }).done(function(response){
-             console.log(response);
-             console.log(data);
+                     console.log(response);
+
            });
         }
 

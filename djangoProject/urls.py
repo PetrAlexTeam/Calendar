@@ -18,9 +18,9 @@ from django.urls import path, include
 from django.conf.urls import url
 
 urlpatterns = [
+    url(r'^tz_detect/', include('tz_detect.urls')),
     path('admin', admin.site.urls),
     path('admin/', admin.site.urls),
     path('', include('Calendar.urls')),
-    path('<str:path>', include('Calendar.urls')),
-    url(r'^tz_detect/', include('tz_detect.urls'))
+    path('<str:path>', include('Calendar.urls'))
 ]

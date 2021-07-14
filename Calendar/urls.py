@@ -12,6 +12,7 @@ urlpatterns = [
     path("last", views.last, name="last_calendar"),
     path("<str:path>/tasks/<int:task_id>", views.get_task, name="task"),
     path('<str:path>/tasks/<int:task_id>/update', views.update_task, name="update_task"),
+    path('<str:path>/tasks/<int:task_id>/delete', views.delete_task, name="delete_task"),
     path('<str:path>/tasks', views.get_calendar, name="calendar_tasks"),
     path('<str:path>/add', views.add_task, name="add_task"),
     path('<str:path>/<int:year>/<int:month>', views.show_calendar, name="month_calendar"),

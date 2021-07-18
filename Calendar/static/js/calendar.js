@@ -1,10 +1,16 @@
 
 jQuery('document').ready(function(){
-    url = $(location).attr('href');
-    //$('.today_task a').attr("href", $(location).attr('href'))
-    $('textarea').text(url);
-    $('button').on('click', function() {
-        document.querySelector("#share-links").select();
-        document.execCommand('copy');
-    });
+
+
 });
+function setClipboard() {
+    url = window.location.origin + window.location.pathname.split('/')[0] + "/" + window.location.pathname.split('/')[1];
+    console.log(url);
+    var tempInput = document.createElement("input");
+    tempInput.style = "position: absolute; left: -1000px; top: -1000px";
+    tempInput.value = url;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand("copy");
+    document.body.removeChild(tempInput);
+}

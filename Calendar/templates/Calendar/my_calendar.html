@@ -56,7 +56,7 @@
                                             <li><a href=" {% url 'task' calendar.path task.id %}">{{ task.name }}</a></li>
                                         {% endif %}
                                         {% if  forloop.counter  == 4%}
-                                            <li><a class="etc" href="{% url 'task' calendar.path task.id %}">etc...</a></li>
+                                            <li><a class="etc" href="{% url 'task' calendar.path task.id %}">etc</a></li>
                                         {% endif %}
                                     {% endfor %}
                                 {% endif %}
@@ -86,18 +86,23 @@
 
                  {% endif %}
                  {% if  forloop.counter  == 4%}
-                    <a class="today etc" href="{% url 'task' calendar.path task.id %}">etc...</a>
+                    <a class="today etc" href="{% url 'task' calendar.path task.id %}">etc</a>
                  {% endif %}
             {% endfor %}
 
             <div>
                 <button onclick="location.href = '/{{ calendar.path }}/add'">Create Task</button>
             </div>
-<!--            <a href="#">Copy link to Calendar</a>-->
-            <h2>Generated Share Links</h2>
-            <textarea id="share-links"></textarea>
+            <h2>Share Links</h2>
             <br>
-            <button>Copy to Clipboard</button>
+            <div>
+                <p class="share_links description">This calendar</p>
+                <button class="share_links" onclick="setClipboard()">Copy</button>
+<!--                <br>-->
+<!--                <p class="share_links">facebook icon</p>-->
+<!--                <button class="share_links"></button>-->
+            </div>
+
         </div>
     </div>
 

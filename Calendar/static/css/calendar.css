@@ -30,6 +30,13 @@ div.all{
         p{
             white-space: pre-line;
         }
+        .share_links{
+            display: inline-block;
+        }
+            .description{
+                width:50%;
+                margin-right:0;
+            }
     div.month_navigate{
         width: 70%;
         height: 900px;

@@ -32,6 +32,7 @@ def show_calendar(request, path, year, month):
     next_link = f"/{path}/{next_[0]}/{next_[1]}"
 
     today_tasks = Task.get_day_tasks(datetime.now(), calendar)
+    print(type(today_tasks))
     decoding_month = {'Jan': 'January', 'Feb': 'February', 'Mar': 'March', 'Apr': 'April', 'May': 'May', 'Jun': 'June',
                       'Jul': 'July', 'Aug': 'August', 'Sep': 'September', 'Oct': 'October', 'Nov': 'November',
                       'Dec': 'December'}
